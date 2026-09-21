@@ -1,0 +1,23 @@
+# Gradle / Kotlin
+.gradle/
+.kotlin/
+build/
+out/
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+bin/
+
+# Ambiente de desenvolvimento do Minecraft
+run/
+
+# Configuracao local da maquina (caminho do perfil de teste)
+local.properties
+
+# Sistema
+.DS_Store
+Thumbs.db

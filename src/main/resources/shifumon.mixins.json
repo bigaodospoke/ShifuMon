@@ -1,0 +1,21 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.shifumon.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "cobblemon.BattleMessageHandlerMixin",
+    "cobblemon.BattleMessagePaneInvoker",
+    "cobblemon.BattleMessagePaneMixin",
+    "cobblemon.BattleOverlayInvoker",
+    "cobblemon.BattleOverlayMixin",
+    "cobblemon.GuiUtilsMixin",
+    "cobblemon.MoveTileMixin",
+    "cobblemon.SearchCompanionMixin",
+    "cobblemon.StorageSlotMixin",
+    "minecraft.PackRepositoryMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}
