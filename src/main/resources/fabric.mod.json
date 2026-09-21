@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "shifumon",
+  "version": "${version}",
+  "name": "ShifuMon",
+  "description": "Melhorias client-side para Cobblemon: ícones shiny em pixel art, informações detalhadas de Pokémon, Battle HUD e busca avançada no PC.",
+  "authors": [
+    "bigaodospoke"
+  ],
+  "contact": {
+    "homepage": "https://github.com/bigaodospoke/ShifuMon",
+    "sources": "https://github.com/bigaodospoke/ShifuMon",
+    "issues": "https://github.com/bigaodospoke/ShifuMon/issues"
+  },
+  "license": ["MIT", "MPL-2.0"],
+  "icon": "assets/shifumon/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "com.shifumon.ShifuMonClient"
+      }
+    ],
+    "modmenu": [
+      "com.shifumon.compat.modmenu.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "shifumon.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.17.2",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": ">=0.116.6",
+    "fabric-language-kotlin": ">=1.13.6+kotlin.2.2.20",
+    "cobblemon": ">=1.8.0"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}
