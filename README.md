@@ -9,6 +9,8 @@ Cobblemon já envia para o seu cliente.
 
 ![Batalha com os painéis do ShifuMon](docs/images/batalha.png)
 
+![Info do Pokémon na mira](docs/images/info-pokemon.png)
+
 | Pacote Retro: inventário e hotbar (antes → depois) | Pacote Retro: botões |
 |---|---|
 | ![Inventário](docs/images/inventario-retro.png) | ![Opções](docs/images/opcoes-retro.png) |
@@ -51,10 +53,13 @@ No Windows use `gradlew.bat`. O `JAVA_HOME` precisa apontar para um **JDK 21**.
 | 3 | **Oponente** — stats base, BST e habilidades possíveis logo abaixo da vida dele | ✅ |
 | 4 | **Botões de golpe redesenhados** — tipo, categoria, PP e eficácia contra o alvo (X2 SUPER, X1/2, IMUNE), continuando clicáveis | ✅ |
 | 4 | **Histórico de batalha estilizado** — divisória por turno, barra na cor do tipo do golpe, etiquetas de crítico/eficácia/desmaio/troca/boost/status/clima | ✅ |
-| 4 | **Battle HUD** — turno, clima, terreno e efeitos de campo, com ícones | ✅ |
+| 4 | **Battle HUD** — turno, clima, terreno, efeitos de campo e condições de cada lado (Reflect, Tailwind, Spikes...), com os turnos que faltam para cada um acabar | ✅ |
+| 4 | **Dica do golpe** — ao passar o mouse: poder, precisão, PP, prioridade, chance de crítico e de efeito, STAB, eficácia contra cada alvo e a descrição | ✅ |
+| 3 | **Atributos atuais** — exatos nos seus Pokémon (já com estágios, paralisia e Tailwind) e faixa estimada pelo nível nos do oponente | ✅ |
 | 2 | **Chance de captura** — com uma Poké Bola na mão, estimativa pela fórmula do Cobblemon (bola, nível, taxa da espécie); faixa entre HP cheio e 1 HP + sono, porque o servidor não envia HP/status de selvagens | ✅ |
 | 5 | **Busca avançada no PC** — estende o filtro nativo do Cobblemon + painel de resultados por caixa (clique para abrir) | ✅ |
 | 5 | **Slots do PC** — ícone de shiny e bolinha de IVs: dourada (seis máximos), azul (quase perfeito, limite configurável) e roxa (todos zerados) | ✅ |
+| 5 | **Papel de parede do PC** — a logo do ShifuMon entra como mais uma opção na lista de papéis de parede, escolhida caixa por caixa e guardada no cliente | ✅ |
 | 7 | **Pacote de texturas "ShifuMon Retro"** — HUD, inventário, widgets e botões de batalha do Cobblemon repintados em memória a partir das texturas originais instaladas (nenhuma textura de terceiros vem no jar); opcional, em Opções > Pacotes de Recursos | ✅ |
 | 7 | **Respeita pacotes de textura** — se um pacote (ex.: barra de HP personalizada) retexturiza o bloco de HP, o histórico ou os botões de golpe, a textura do pacote é mantida; desativável na aba Interface | ✅ |
 | 6 | **Configuração** — tela própria (Mod Menu ou tecla `O`) e editor visual de HUD com arrastar e soltar | ✅ |
@@ -88,7 +93,9 @@ normalmente. Nos seus Pokémon (party e PC) tudo é exibido.
 ShifuMon/
 ├── build.gradle.kts, settings.gradle.kts, gradle.properties
 ├── tools/
-│   └── PixelArtGenerator.java      # desenha os sprites do mod a partir de grades ASCII
+│   ├── PixelArtGenerator.java      # desenha os sprites do mod a partir de grades ASCII
+│   ├── PcWallpaperGenerator.java   # papel de parede do PC a partir da logo
+│   └── IconGenerator.java          # ícone do mod a partir da logo
 └── src/main/
     ├── java/com/shifumon/mixin/minecraft/
     │   └── PackRepositoryMixin.java        # adiciona o pacote Retro à lista de pacotes do cliente
@@ -99,6 +106,8 @@ ShifuMon/
     │   ├── MoveTileMixin.java              # botões de golpe com eficácia
     │   ├── BattleMessagePaneMixin.java     # histórico de batalha estilizado (+ Invoker)
     │   ├── StorageSlotMixin.java           # ícone shiny e bolinha de IVs nos slots do PC
+    │   ├── StorageWidgetMixin.java         # qual caixa do PC está sendo desenhada
+    │   ├── WallpapersScrollingWidgetMixin.java  # papel de parede do ShifuMon na lista (+ Entry)
     │   └── SearchCompanionMixin.java       # adiciona filtros avançados ao Search.of do PC
     ├── kotlin/com/shifumon/
     │   ├── ShifuMon.kt / ShifuMonClient.kt # constantes e entrypoint
@@ -112,7 +121,7 @@ ShifuMon/
     │   │   ├── move/                       # botões de golpe
     │   │   └── log/                        # histórico de batalha
     │   ├── boxsearch/                      # parser da busca, integração e painel no PC
-    │   ├── pc/                             # marcações nos slots do PC
+    │   ├── pc/                             # marcações nos slots e papel de parede das caixas
     │   ├── hud/                            # HudElement, HudManager, dados de preview
     │   │   ├── panel/                      # DSL de painéis (linhas, textos, badges, barras)
     │   │   └── render/                     # primitivas pixel art, fonte 3x5, paleta, ícones

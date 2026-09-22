@@ -6,14 +6,19 @@ import com.shifumon.config.HudPosition
 import com.shifumon.hud.HudElement
 import com.shifumon.hud.PreviewData
 import com.shifumon.hud.panel.Panel
+import com.shifumon.hud.panel.PanelBuilder
+import com.shifumon.hud.panel.RowBuilder
 import com.shifumon.hud.panel.panel
 import com.shifumon.hud.render.HudIcons
 import com.shifumon.hud.render.RetroPalette
+import com.shifumon.hud.render.TinyFont
+import net.minecraft.client.resources.language.I18n
 import net.minecraft.network.chat.Component
 
 /**
- * Battle HUD: turno, clima, terreno e efeitos de campo. Golpes ficam nos botões do próprio
- * Cobblemon (redesenhados) e os dados do oponente ficam no bloco dele.
+ * Battle HUD: turno, clima, terreno, efeitos de campo e condições de cada lado, com os turnos que
+ * faltam para cada um acabar. Golpes ficam nos botões do próprio Cobblemon (redesenhados) e os
+ * dados do oponente ficam no bloco dele.
  */
 object BattleInfoHud : HudElement {
     override val id = "battle_info"
@@ -40,16 +45,18 @@ object BattleInfoHud : HudElement {
             if (config.showWeather) {
                 view.weather?.let { weather ->
                     row {
-                        HudIcons.weather(weather)?.let { icon(it) }
-                        text(BattleNames.weather(weather))
+                        HudIcons.weather(weather.id)?.let { icon(it) }
+                        text(BattleNames.weather(weather.id))
+                        turnsLeft(weather)
                     }
                 }
             }
             if (config.showTerrain) {
                 view.terrain?.let { terrain ->
                     row {
-                        HudIcons.terrain(terrain)?.let { icon(it) }
-                        text(BattleNames.terrain(terrain))
+                        HudIcons.terrain(terrain.id)?.let { icon(it) }
+                        text(BattleNames.terrain(terrain.id))
+                        turnsLeft(terrain)
                     }
                 }
             }
@@ -57,10 +64,39 @@ object BattleInfoHud : HudElement {
                 view.fieldEffects.forEach { effect ->
                     row {
                         chip(">", RetroPalette.ACCENT_BATTLE)
-                        text(BattleNames.field(effect), RetroPalette.TEXT_DIM)
+                        text(BattleNames.field(effect.id), RetroPalette.TEXT_DIM)
+                        turnsLeft(effect)
                     }
                 }
             }
+            if (config.showSideConditions) {
+                sideRows("shifumon.battle.side.ally", RetroPalette.ACCENT_ALLY, view.allySide)
+                sideRows("shifumon.battle.side.opponent", RetroPalette.ACCENT_OPPONENT, view.opponentSide)
+            }
         }
+    }
+
+    /** "SEU LADO" / "OPONENTE" seguidos de Reflect, Tailwind, Spikes x2... */
+    private fun PanelBuilder.sideRows(labelKey: String, color: Int, effects: List<FieldEffectView>) {
+        if (effects.isEmpty()) return
+        separator()
+        row { tiny(TinyFont.sanitize(I18n.get(labelKey)), color) }
+        effects.forEach { effect ->
+            row {
+                chip(">", color)
+                text(BattleNames.side(effect.id), RetroPalette.TEXT_DIM)
+                if (effect.layers > 1) tiny("X${effect.layers}")
+                turnsLeft(effect)
+            }
+        }
+    }
+
+    /** "3 TURNOS" à direita; faixa ("3-6 TURNOS") quando um item do oponente pode estender o efeito. */
+    private fun RowBuilder.turnsLeft(effect: FieldEffectView) {
+        if (!ConfigManager.config.battleHud.showEffectTurns) return
+        val range = effect.remaining ?: return
+        val count = if (range.first == range.last) "${range.first}" else "${range.first}-${range.last}"
+        val key = if (range.last == 1) "shifumon.battle.turns_left.one" else "shifumon.battle.turns_left"
+        right { tiny(TinyFont.sanitize(I18n.get(key, count)), RetroPalette.TEXT_DIM) }
     }
 }

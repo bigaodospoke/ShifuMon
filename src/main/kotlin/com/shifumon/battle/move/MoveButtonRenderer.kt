@@ -3,6 +3,7 @@ package com.shifumon.battle.move
 import com.cobblemon.mod.common.api.moves.categories.DamageCategories
 import com.cobblemon.mod.common.battles.InBattleMove
 import com.cobblemon.mod.common.client.battle.ActiveClientBattlePokemon
+import com.cobblemon.mod.common.client.battle.ClientBattlePokemon
 import com.cobblemon.mod.common.client.gui.battle.subscreen.BattleMoveSelection
 import com.shifumon.battle.BattleReader
 import com.shifumon.battle.Effectiveness
@@ -149,18 +150,25 @@ object MoveButtonRenderer {
     /** Multiplicador contra cada oponente alvo; vazio para golpes de status. */
     private fun effectiveness(tile: BattleMoveSelection.MoveTile): List<Double> {
         if (tile.moveTemplate.damageCategory == DamageCategories.STATUS) return emptyList()
+        return opponentTargets(tile).map { multiplier(tile, it) }
+    }
+
+    /** Oponentes que o golpe pode atingir. */
+    internal fun opponentTargets(tile: BattleMoveSelection.MoveTile): List<ClientBattlePokemon> {
         val user = tile.moveSelection.request.activePokemon
         return tile.targetList.orEmpty()
             .filterIsInstance<ActiveClientBattlePokemon>()
             .filter { !it.isAllied(user) }
             .mapNotNull { it.battlePokemon }
-            .map { target -> TypeChart.multiplier(tile.elementalType.name, BattleReader.types(target).map { it.name }) }
     }
 
-    private fun ppText(move: InBattleMove): String =
+    internal fun multiplier(tile: BattleMoveSelection.MoveTile, target: ClientBattlePokemon): Double =
+        TypeChart.multiplier(tile.elementalType.name, BattleReader.types(target).map { it.name })
+
+    internal fun ppText(move: InBattleMove): String =
         if (move.pp == 100 && move.maxpp == 100) "--/--" else "${move.pp}/${move.maxpp}"
 
-    private fun ppColor(move: InBattleMove): Int = when {
+    internal fun ppColor(move: InBattleMove): Int = when {
         move.pp == 0 -> RetroPalette.NEGATIVE
         move.pp <= move.maxpp / 2 -> RetroPalette.WARNING
         else -> RetroPalette.TEXT

@@ -12,6 +12,10 @@ object BattleNames {
 
     fun field(id: String): Component = translatedOr("shifumon.field.$id", id)
 
+    /** Condições de lado têm o nome do golpe que as cria (Reflect, Tailwind...), exceto os Pledges. */
+    fun side(id: String): Component =
+        if (Language.getInstance().has("shifumon.side.$id")) Component.translatable("shifumon.side.$id") else translatedOr("cobblemon.move.$id", id)
+
     private fun translatedOr(key: String, id: String): Component =
         if (Language.getInstance().has(key)) Component.translatable(key) else Component.literal(TextUtil.prettifyId(id))
 }

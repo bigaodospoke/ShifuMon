@@ -19,15 +19,16 @@ import net.minecraft.client.gui.GuiGraphics
 object PcSlotOverlay {
     private const val SLOT_SIZE = StorageSlot.SIZE
     private const val SHINY_SIZE = 8
-    private const val ORB_SIZE = 8
+    private const val ORB_SIZE = 6
+    private const val ORB_SHADE_FROM_ROW = 4
 
     private val statOrder = listOf(
         Stats.HP, Stats.ATTACK, Stats.DEFENCE, Stats.SPECIAL_ATTACK, Stats.SPECIAL_DEFENCE, Stats.SPEED,
     )
 
-    /** Linhas da bolinha 8x8: contorno, corpo e a metade de baixo sombreada. */
-    private val orbOutline = listOf(2 to 6, 1 to 7, 0 to 8, 0 to 8, 0 to 8, 0 to 8, 1 to 7, 2 to 6)
-    private val orbBody = listOf(3 to 5, 2 to 6, 1 to 7, 1 to 7, 1 to 7, 1 to 7, 2 to 6, 3 to 5)
+    /** Linhas da bolinha 6x6: contorno, corpo e a parte de baixo sombreada. */
+    private val orbOutline = listOf(1 to 5, 0 to 6, 0 to 6, 0 to 6, 0 to 6, 1 to 5)
+    private val orbBody = listOf(2 to 4, 1 to 5, 1 to 5, 1 to 5, 1 to 5, 2 to 4)
 
     /** Chamado pelo mixin no fim de `StorageSlot.renderSlot`. */
     @JvmStatic
@@ -68,7 +69,7 @@ object PcSlotOverlay {
         }
     }
 
-    /** Esfera 8x8: contorno escuro, sombra na metade de baixo e brilho em cima à esquerda. */
+    /** Esfera 6x6: contorno escuro, sombra embaixo e brilho em cima à esquerda. */
     private fun drawOrb(graphics: GuiGraphics, x: Int, y: Int, tier: IvTier) {
         val outline = Colors.darken(tier.color, 0.28f)
         val shade = Colors.darken(tier.color, 0.68f)
@@ -78,11 +79,11 @@ object PcSlotOverlay {
             graphics.fill(x + start, y + row, x + end, y + row + 1, outline)
         }
         orbBody.forEachIndexed { row, (start, end) ->
-            graphics.fill(x + start, y + row, x + end, y + row + 1, if (row >= 5) shade else tier.color)
+            graphics.fill(x + start, y + row, x + end, y + row + 1, if (row >= ORB_SHADE_FROM_ROW) shade else tier.color)
         }
-        // brilho: dois pixels na diagonal, como uma bolinha de vidro
-        graphics.fill(x + 2, y + 2, x + 4, y + 3, light)
-        graphics.fill(x + 2, y + 3, x + 3, y + 4, light)
-        if (tier.sparkle) graphics.fill(x + 5, y + 5, x + 6, y + 6, Colors.lighten(tier.color, 0.9f))
+        // brilho: um ponto claro, como uma bolinha de vidro
+        graphics.fill(x + 2, y + 1, x + 3, y + 2, light)
+        graphics.fill(x + 1, y + 2, x + 2, y + 3, light)
+        if (tier.sparkle) graphics.fill(x + 3, y + 3, x + 4, y + 4, Colors.lighten(tier.color, 0.9f))
     }
 }

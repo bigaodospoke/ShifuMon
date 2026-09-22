@@ -156,6 +156,7 @@ class ShifuMonConfigScreen(private val parent: Screen?) : Screen(Component.trans
                 toggle("shifumon.config.interface.show_weaknesses", ui.showWeaknesses) { ui.showWeaknesses = it },
                 toggle("shifumon.config.interface.show_resistances", ui.showResistances) { ui.showResistances = it },
                 toggle("shifumon.config.interface.show_strengths", ui.showStrengths) { ui.showStrengths = it },
+                toggle("shifumon.config.interface.show_current_stats", ui.showCurrentStats) { ui.showCurrentStats = it },
             )
         }
 
@@ -167,9 +168,12 @@ class ShifuMonConfigScreen(private val parent: Screen?) : Screen(Component.trans
                 toggle("shifumon.config.battle.show_weather", battle.showWeather) { battle.showWeather = it },
                 toggle("shifumon.config.battle.show_terrain", battle.showTerrain) { battle.showTerrain = it },
                 toggle("shifumon.config.battle.show_field_effects", battle.showFieldEffects) { battle.showFieldEffects = it },
+                toggle("shifumon.config.battle.show_side_conditions", battle.showSideConditions) { battle.showSideConditions = it },
+                toggle("shifumon.config.battle.show_effect_turns", battle.showEffectTurns) { battle.showEffectTurns = it },
                 toggle("shifumon.config.battle.show_competitive_info", battle.showCompetitiveInfo) { battle.showCompetitiveInfo = it },
                 toggle("shifumon.config.battle.restyle_move_buttons", battle.restyleMoveButtons) { battle.restyleMoveButtons = it },
                 toggle("shifumon.config.battle.show_move_effectiveness", battle.showMoveEffectiveness) { battle.showMoveEffectiveness = it },
+                toggle("shifumon.config.battle.show_move_tooltip", battle.showMoveTooltip) { battle.showMoveTooltip = it },
                 toggle("shifumon.config.battle.restyle_battle_log", battle.restyleBattleLog) { battle.restyleBattleLog = it },
             )
         }
@@ -182,6 +186,7 @@ class ShifuMonConfigScreen(private val parent: Screen?) : Screen(Component.trans
                 toggle("shifumon.config.box_search.show_results_panel", search.showResultsPanel) { search.showResultsPanel = it },
                 toggle("shifumon.config.pc.show_shiny_icon", pc.showShinyIcon) { pc.showShinyIcon = it },
                 toggle("shifumon.config.pc.show_iv_badge", pc.showIvBadge) { pc.showIvBadge = it },
+                toggle("shifumon.config.pc.shifumon_wallpaper", pc.shifumonWallpaper) { pc.shifumonWallpaper = it },
                 OptionWidget { x, y, width ->
                     CycleButton.builder<Int> { Component.literal("F$it+") }
                         .withValues(listOf(1, 2, 3, 4, 5, 6))

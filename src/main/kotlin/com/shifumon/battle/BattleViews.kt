@@ -14,12 +14,23 @@ data class CompetitiveView(
     val abilities: List<Pair<Component, Boolean>>,
 )
 
+/** Efeito em campo; [remaining] = turnos restantes contando o atual (faixa quando um item pode estender). */
+data class FieldEffectView(val id: String, val remaining: IntRange?, val layers: Int = 1)
+
 data class BattleInfoView(
     val turn: Int,
-    val weather: String?,
-    val terrain: String?,
-    val fieldEffects: List<String>,
+    val weather: FieldEffectView?,
+    val terrain: FieldEffectView?,
+    val fieldEffects: List<FieldEffectView>,
+    val allySide: List<FieldEffectView>,
+    val opponentSide: List<FieldEffectView>,
 )
+
+/** Valor atual de um atributo, com estágios, paralisia e Tailwind; [trend] > 0 = aumentado, < 0 = reduzido. */
+data class StatValueView(val stat: Stat, val min: Int, val max: Int, val trend: Int)
+
+/** Atributos exatos (Pokémon do jogador) ou uma faixa estimada pelos stats base e nível (oponente). */
+data class StatsView(val values: List<StatValueView>, val estimated: Boolean)
 
 data class BattlePokemonView(
     val name: Component,
@@ -34,4 +45,5 @@ data class BattlePokemonView(
     val boosts: List<Pair<Stat, Int>>,
     /** Stats base e habilidades possíveis (só no painel do oponente). */
     val competitive: CompetitiveView?,
+    val stats: StatsView? = null,
 )

@@ -78,7 +78,33 @@ internal object BattlePokemonRows {
         }
         if (config.showStrengths) typeChipRows(panel, "shifumon.matchup.strong", matchups.strongAgainst, labelWidth)
 
+        if (config.showCurrentStats) view.stats?.let { statRows(panel, it) }
         view.competitive?.let { competitiveRows(panel, it) }
+    }
+
+    /** Atributos atuais: verde quando aumentado, vermelho quando reduzido; faixa no oponente. */
+    private fun statRows(panel: PanelBuilder, stats: StatsView) {
+        panel.separator()
+        panel.row {
+            tiny(label("shifumon.battle.stats"), RetroPalette.LABEL)
+            if (stats.estimated) right { tiny(label("shifumon.battle.stats.estimated"), RetroPalette.TEXT_DIM) }
+        }
+        stats.values.chunked(3).forEach { chunk ->
+            panel.row(gap = 2) {
+                chunk.forEachIndexed { index, value ->
+                    if (index > 0) space(3)
+                    tiny(StatNames.short(value.stat), RetroPalette.TEXT_DIM)
+                    val text = if (value.min == value.max) "${value.min}" else "${value.min}-${value.max}"
+                    tiny(text, trendColor(value.trend))
+                }
+            }
+        }
+    }
+
+    private fun trendColor(trend: Int): Int = when {
+        trend > 0 -> RetroPalette.POSITIVE
+        trend < 0 -> RetroPalette.NEGATIVE
+        else -> RetroPalette.TEXT
     }
 
     /** "FRACO [LUT][PED]..." com os chips alinhados numa coluna, quebrando a cada 5 tipos. */

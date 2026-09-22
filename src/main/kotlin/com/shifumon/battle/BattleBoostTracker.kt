@@ -87,21 +87,8 @@ object BattleBoostTracker {
         stages.getOrPut(pokemon) { HashMap() }[stat] = value
     }
 
-    /** O nome na mensagem pode vir com o dono junto ("Rowlet de bigaors"), então basta conter o nome. */
-    private fun pokemonFrom(args: Array<Any>): UUID? {
-        val battle = CobblemonClient.battle ?: return null
-        val active = battle.sides.flatMap { side -> side.activeClientBattlePokemon.mapNotNull { it.battlePokemon } }
-        if (active.isEmpty()) return null
-
-        for (arg in args) {
-            val text = (arg as? Component)?.string ?: continue
-            val normalized = TextUtil.normalize(text)
-            active.firstOrNull { TextUtil.normalize(it.displayName.string) == normalized }?.let { return it.uuid }
-            val contained = active.filter { normalized.contains(TextUtil.normalize(it.displayName.string)) }
-            if (contained.size == 1) return contained.first().uuid
-        }
-        return null
-    }
+    private fun pokemonFrom(args: Array<Any>): UUID? =
+        BattleReader.activeFromNames(args.mapNotNull { (it as? Component)?.string })?.uuid
 
     /** O argumento do atributo vem traduzido; comparamos com o nome de cada atributo. */
     private fun statFrom(args: Array<Any>): Stats? {
