@@ -16,6 +16,7 @@
     "cobblemon.StorageWidgetMixin",
     "cobblemon.WallpaperEntryMixin",
     "cobblemon.WallpapersScrollingWidgetMixin",
+    "minecraft.AbstractSelectionListInvoker",
     "minecraft.PackRepositoryMixin"
   ],
   "injectors": {
