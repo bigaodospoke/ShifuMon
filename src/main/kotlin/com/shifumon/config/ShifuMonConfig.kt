@@ -29,6 +29,8 @@ class ShifuMonConfig {
         if (pc == null) pc = PcConfig()
         if (hud == null) hud = HudLayoutConfig()
         pc.minPerfectIvs = pc.minPerfectIvs.coerceIn(1, 6)
+        if (pc.shifumonWallpaperBoxes == null) pc.shifumonWallpaperBoxes = LinkedHashSet()
+        pc.shifumonWallpaperBoxes.removeIf { it == null || it < 0 }
 
         if (shiny.style == null) shiny.style = ShinyStyle.STAR
         if (shiny.customIconFile.isNullOrBlank()) shiny.customIconFile = ShinyConfig.DEFAULT_CUSTOM_ICON
@@ -86,6 +88,8 @@ class InterfaceConfig {
     var showWeaknesses = true
     var showResistances = true
     var showStrengths = true
+    /** Atributos atuais (exatos nos seus Pokémon, faixa estimada nos do oponente). */
+    var showCurrentStats = true
 }
 
 class BattleHudConfig {
@@ -95,10 +99,16 @@ class BattleHudConfig {
     var showWeather = true
     var showTerrain = true
     var showFieldEffects = true
+    /** Reflect, Tailwind, Spikes... de cada lado do campo. */
+    var showSideConditions = true
+    /** Quantos turnos faltam para cada clima, terreno e efeito acabar. */
+    var showEffectTurns = true
     /** Stats base e habilidades possíveis no painel do oponente. */
     var showCompetitiveInfo = true
     var restyleMoveButtons = true
     var showMoveEffectiveness = true
+    /** Poder, precisão, PP e descrição ao passar o mouse num golpe. */
+    var showMoveTooltip = true
     var restyleBattleLog = true
 }
 
@@ -112,6 +122,11 @@ class PcConfig {
     var showIvBadge = true
     /** A partir de quantos IVs máximos o selo aparece (6 = só F6). */
     var minPerfectIvs = 5
+    /** Oferece o papel de parede do ShifuMon como mais uma opção na lista do PC. */
+    var shifumonWallpaper = true
+    /** Caixas que estão usando o papel de parede do ShifuMon, escolhido na lista do PC.
+     *  Fica no cliente porque o servidor só conhece os papéis de parede dele. */
+    var shifumonWallpaperBoxes: MutableSet<Int> = LinkedHashSet()
 }
 
 class HudLayoutConfig {

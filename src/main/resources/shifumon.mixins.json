@@ -13,6 +13,9 @@
     "cobblemon.MoveTileMixin",
     "cobblemon.SearchCompanionMixin",
     "cobblemon.StorageSlotMixin",
+    "cobblemon.StorageWidgetMixin",
+    "cobblemon.WallpaperEntryMixin",
+    "cobblemon.WallpapersScrollingWidgetMixin",
     "minecraft.PackRepositoryMixin"
   ],
   "injectors": {

@@ -1,6 +1,7 @@
 package com.shifumon.mixin.cobblemon;
 
 import com.cobblemon.mod.common.api.gui.GuiUtilsKt;
+import com.shifumon.pc.PcWallpaper;
 import com.shifumon.shiny.ShinyIcons;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
@@ -8,9 +9,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 /**
- * Todas as telas do Cobblemon desenham texturas por {@code GuiUtilsKt.blitk}. Trocar só o
- * ResourceLocation do ícone de shiny aqui cobre Summary, PC e Trade de uma vez, sem depender
- * da estrutura interna de cada tela.
+ * Todas as telas do Cobblemon desenham texturas por {@code GuiUtilsKt.blitk}. Trocar o
+ * ResourceLocation aqui cobre Summary, PC e Trade de uma vez, sem depender da estrutura interna
+ * de cada tela: serve para o ícone de shiny e para o papel de parede das caixas do PC.
  */
 @Mixin(GuiUtilsKt.class)
 public abstract class GuiUtilsMixin {
@@ -19,7 +20,7 @@ public abstract class GuiUtilsMixin {
             at = @At("HEAD"),
             argsOnly = true
     )
-    private static ResourceLocation shifumon$replaceShinyIcon(ResourceLocation texture) {
-        return ShinyIcons.resolveTexture(texture);
+    private static ResourceLocation shifumon$replaceTexture(ResourceLocation texture) {
+        return PcWallpaper.resolveTexture(ShinyIcons.resolveTexture(texture));
     }
 }

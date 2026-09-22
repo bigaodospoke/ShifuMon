@@ -6,6 +6,9 @@ import com.cobblemon.mod.common.pokemon.Gender
 import com.shifumon.battle.BattleInfoView
 import com.shifumon.battle.BattlePokemonView
 import com.shifumon.battle.CompetitiveView
+import com.shifumon.battle.FieldEffectView
+import com.shifumon.battle.StatValueView
+import com.shifumon.battle.StatsView
 import com.shifumon.capture.CaptureEstimate
 import com.shifumon.pokemoninfo.NatureInfo
 import com.shifumon.pokemoninfo.PokemonInfo
@@ -35,9 +38,11 @@ object PreviewData {
 
     fun battleInfo() = BattleInfoView(
         turn = 3,
-        weather = "raindance",
-        terrain = "electricterrain",
-        fieldEffects = listOf("trickroom"),
+        weather = FieldEffectView("raindance", 3..3),
+        terrain = FieldEffectView("electricterrain", 2..5),
+        fieldEffects = listOf(FieldEffectView("trickroom", 4..4)),
+        allySide = listOf(FieldEffectView("reflect", 3..3), FieldEffectView("tailwind", 1..1)),
+        opponentSide = listOf(FieldEffectView("stealthrock", null), FieldEffectView("spikes", null, 2)),
     )
 
     fun battlePokemon(ally: Boolean): List<BattlePokemonView> = if (ally) {
@@ -46,6 +51,14 @@ object PreviewData {
                 name = Component.literal("Pikachu"), level = 32, gender = Gender.FEMALE, shiny = true,
                 types = listOf(ElementalTypes.ELECTRIC), hpRatio = 0.72f, hpText = "58/80", status = null,
                 boosts = listOf(Stats.SPEED to 2), competitive = null,
+                stats = StatsView(
+                    listOf(
+                        StatValueView(Stats.ATTACK, 38, 38, 0), StatValueView(Stats.DEFENCE, 27, 27, 0),
+                        StatValueView(Stats.SPECIAL_ATTACK, 37, 37, 0), StatValueView(Stats.SPECIAL_DEFENCE, 35, 35, 0),
+                        StatValueView(Stats.SPEED, 158, 158, 1),
+                    ),
+                    estimated = false,
+                ),
             ),
         )
     } else {
@@ -63,6 +76,14 @@ object PreviewData {
                         Component.translatable("cobblemon.ability.sandveil") to false,
                         Component.translatable("cobblemon.ability.roughskin") to true,
                     ),
+                ),
+                stats = StatsView(
+                    listOf(
+                        StatValueView(Stats.ATTACK, 174, 286, 1), StatValueView(Stats.DEFENCE, 57, 103, -1),
+                        StatValueView(Stats.SPECIAL_ATTACK, 72, 149, 0), StatValueView(Stats.SPECIAL_DEFENCE, 77, 144, 0),
+                        StatValueView(Stats.SPEED, 91, 162, 0),
+                    ),
+                    estimated = true,
                 ),
             ),
         )

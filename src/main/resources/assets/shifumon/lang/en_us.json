@@ -79,6 +79,7 @@
   "shifumon.config.box_search.show_results_panel": "Results panel",
   "shifumon.config.pc.show_shiny_icon": "Shiny on slots",
   "shifumon.config.pc.show_iv_badge": "IV badge",
+  "shifumon.config.pc.shifumon_wallpaper": "ShifuMon wallpaper in list",
   "shifumon.config.pc.min_perfect_ivs": "Badge from",
 
   "shifumon.config.hud.reset_positions": "Reset positions",
@@ -181,5 +182,26 @@
   "shifumon.search.help.title": "Advanced search",
   "shifumon.search.help.1": "nature:adamant  type:fire  ability:static",
   "shifumon.search.help.2": "gender:f  lv:>30  lv:10-20  name:pika",
-  "shifumon.search.help.3": "shiny  ha (hidden ability)  !shiny (negate)"
+  "shifumon.search.help.3": "shiny  ha (hidden ability)  !shiny (negate)",
+
+  "shifumon.config.interface.show_current_stats": "Current stats",
+  "shifumon.config.battle.show_side_conditions": "Side conditions",
+  "shifumon.config.battle.show_effect_turns": "Turns left",
+  "shifumon.config.battle.show_move_tooltip": "Move tooltip",
+  "shifumon.battle.stats": "STATS",
+  "shifumon.battle.stats.estimated": "ESTIMATED",
+  "shifumon.battle.turns_left": "%s TURNS",
+  "shifumon.battle.turns_left.one": "%s TURN",
+  "shifumon.battle.side.ally": "YOUR SIDE",
+  "shifumon.battle.side.opponent": "OPPONENT",
+  "shifumon.side.firepledge": "Sea of fire",
+  "shifumon.side.grasspledge": "Swamp",
+  "shifumon.side.waterpledge": "Rainbow",
+  "shifumon.move.power": "POWER",
+  "shifumon.move.accuracy": "ACCURACY",
+  "shifumon.move.priority": "PRIORITY",
+  "shifumon.move.high_crit": "HIGH CRIT",
+  "shifumon.move.effect_chance": "EFFECT %s%%",
+  "shifumon.move.stab": "STAB X1.5",
+  "shifumon.move.disabled": "DISABLED"
 }

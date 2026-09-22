@@ -79,6 +79,7 @@
   "shifumon.config.box_search.show_results_panel": "Painel de resultados",
   "shifumon.config.pc.show_shiny_icon": "Shiny nos slots",
   "shifumon.config.pc.show_iv_badge": "Selo de IVs",
+  "shifumon.config.pc.shifumon_wallpaper": "Papel ShifuMon na lista",
   "shifumon.config.pc.min_perfect_ivs": "Selo a partir de",
 
   "shifumon.config.hud.reset_positions": "Resetar posições",
@@ -181,5 +182,26 @@
   "shifumon.search.help.title": "Busca avançada",
   "shifumon.search.help.1": "natureza:firme  tipo:fogo  hab:estatica",
   "shifumon.search.help.2": "sexo:f  lv:>30  lv:10-20  nome:pika",
-  "shifumon.search.help.3": "shiny  ha (hab. oculta)  !shiny (nega)"
+  "shifumon.search.help.3": "shiny  ha (hab. oculta)  !shiny (nega)",
+
+  "shifumon.config.interface.show_current_stats": "Atributos atuais",
+  "shifumon.config.battle.show_side_conditions": "Condições de cada lado",
+  "shifumon.config.battle.show_effect_turns": "Turnos restantes",
+  "shifumon.config.battle.show_move_tooltip": "Dica dos golpes",
+  "shifumon.battle.stats": "ATRIBUTOS",
+  "shifumon.battle.stats.estimated": "ESTIMADO",
+  "shifumon.battle.turns_left": "%s TURNOS",
+  "shifumon.battle.turns_left.one": "%s TURNO",
+  "shifumon.battle.side.ally": "SEU LADO",
+  "shifumon.battle.side.opponent": "OPONENTE",
+  "shifumon.side.firepledge": "Mar de fogo",
+  "shifumon.side.grasspledge": "Pântano",
+  "shifumon.side.waterpledge": "Arco-íris",
+  "shifumon.move.power": "PODER",
+  "shifumon.move.accuracy": "PRECISÃO",
+  "shifumon.move.priority": "PRIORIDADE",
+  "shifumon.move.high_crit": "CRÍTICO ALTO",
+  "shifumon.move.effect_chance": "EFEITO %s%%",
+  "shifumon.move.stab": "STAB X1.5",
+  "shifumon.move.disabled": "BLOQUEADO"
 }
