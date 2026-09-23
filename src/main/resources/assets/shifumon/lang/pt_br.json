@@ -203,5 +203,12 @@
   "shifumon.move.high_crit": "CRÍTICO ALTO",
   "shifumon.move.effect_chance": "EFEITO %s%%",
   "shifumon.move.stab": "STAB X1.5",
-  "shifumon.move.disabled": "BLOQUEADO"
+  "shifumon.move.disabled": "BLOQUEADO",
+
+  "key.shifumon.toggle_battle_details": "Recolher detalhes da batalha",
+  "shifumon.config.interface.type_icons": "Símbolos de tipo",
+  "shifumon.config.interface.details_collapsed": "Detalhes recolhidos",
+
+  "shifumon.config.battle.log_extra_height": "Altura do histórico",
+  "shifumon.config.pixels": "+%s px"
 }

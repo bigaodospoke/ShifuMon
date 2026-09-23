@@ -203,5 +203,12 @@
   "shifumon.move.high_crit": "HIGH CRIT",
   "shifumon.move.effect_chance": "EFFECT %s%%",
   "shifumon.move.stab": "STAB X1.5",
-  "shifumon.move.disabled": "DISABLED"
+  "shifumon.move.disabled": "DISABLED",
+
+  "key.shifumon.toggle_battle_details": "Collapse battle details",
+  "shifumon.config.interface.type_icons": "Type symbols",
+  "shifumon.config.interface.details_collapsed": "Details collapsed",
+
+  "shifumon.config.battle.log_extra_height": "Log height",
+  "shifumon.config.pixels": "+%s px"
 }

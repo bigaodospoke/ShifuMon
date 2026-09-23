@@ -39,6 +39,8 @@ object BattleLogRenderer {
     private const val SCROLLBAR_X = 154
     private const val TOGGLE_X = 160
 
+    private const val MAX_EXTRA_HEIGHT = 160
+
     private const val SUPER_COLOR = 0xFF2FA84F.toInt()
     private const val WEAK_COLOR = 0xFFC07820.toInt()
     private const val NEUTRAL_COLOR = 0xFF5A5A6C.toInt()
@@ -62,11 +64,16 @@ object BattleLogRenderer {
 
     private fun draw(pane: BattleMessagePane, graphics: GuiGraphics) {
         (pane as Any as BattleMessagePaneInvoker).`shifumon$correctSize`()
+        // O histórico cresce para cima: o pé dele e o botão de expandir ficam onde o Cobblemon espera,
+        // que é onde ele trata os cliques, e a área de rolagem acompanha o tamanho novo
+        val extra = ConfigManager.config.battleHud.logExtraHeight.coerceIn(0, MAX_EXTRA_HEIGHT)
+        if (extra > 0) pane.setRectangle(pane.width, pane.height + extra, pane.x, pane.y - extra)
         val x = pane.x
-        val y = pane.appropriateY
+        val baseY = pane.appropriateY
+        val y = baseY - extra
         val boxHeight = pane.height
-        val expanded = boxHeight > TEXT_BOX_HEIGHT
-        val frameHeight = if (expanded) BattleMessagePane.FRAME_EXPANDED_HEIGHT else BattleMessagePane.FRAME_HEIGHT
+        val expanded = boxHeight - extra > TEXT_BOX_HEIGHT
+        val frameHeight = (if (expanded) BattleMessagePane.FRAME_EXPANDED_HEIGHT else BattleMessagePane.FRAME_HEIGHT) + extra
 
         val rows = rows(pane)
         val contentHeight = rows.sumOf { it.height }
@@ -89,7 +96,7 @@ object BattleLogRenderer {
             graphics.disableScissor()
 
             drawScrollbar(graphics, x + SCROLLBAR_X, boxTop, boxHeight, contentHeight, ratio)
-            drawToggle(graphics, x + TOGGLE_X, y + if (expanded) 92 else 46, expanded)
+            drawToggle(graphics, x + TOGGLE_X, baseY + if (expanded) 92 else 46, expanded)
         }
     }
 

@@ -15,6 +15,7 @@ import com.shifumon.hud.render.PixelUi
 import com.shifumon.hud.render.RetroPalette
 import com.shifumon.hud.render.TinyFont
 import com.shifumon.hud.render.TypeColors
+import com.shifumon.hud.render.TypeIcons
 import com.shifumon.util.Colors
 import com.shifumon.util.FeatureGuard
 import com.shifumon.util.TexturePackCheck
@@ -73,8 +74,14 @@ object MoveButtonRenderer {
 
             // Linha 1: tipo + nome
             val typeLabel = TypeNames.short(type.name)
-            PixelUi.chip(graphics, typeLabel, x + 3, y + 2, Colors.darken(typeColor, 0.55f), RetroPalette.TEXT)
-            val nameX = x + 3 + TinyFont.width(typeLabel) + 4 + 3
+            val typeIcon = TypeIcons.of(type.name)
+            val typeWidth = if (typeIcon != null) TypeIcons.SIZE + 4 else TinyFont.width(typeLabel) + 4
+            if (typeIcon != null) {
+                PixelUi.typeChip(graphics, typeIcon, x + 3, y + 2, Colors.darken(typeColor, 0.55f))
+            } else {
+                PixelUi.chip(graphics, typeLabel, x + 3, y + 2, Colors.darken(typeColor, 0.55f), RetroPalette.TEXT)
+            }
+            val nameX = x + 3 + typeWidth + 3
             val nameLimit = x + WIDTH - 3 - (if (stripe) STRIPE_WIDTH else 0) - nameX
             graphics.drawString(font, fit(font, template.displayName.string, nameLimit), nameX, y + 3, RetroPalette.TEXT, true)
 

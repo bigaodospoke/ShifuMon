@@ -2,6 +2,7 @@ package com.shifumon.hud.panel
 
 import com.shifumon.hud.render.HudIcons
 import com.shifumon.hud.render.RetroPalette
+import com.shifumon.hud.render.TypeIcons
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
@@ -75,6 +76,11 @@ class RowBuilder internal constructor() {
 
     fun badge(text: Component, color: Int) {
         target.add(BadgeInline(text, color))
+    }
+
+    /** Etiqueta de um tipo: símbolo quando o mod tem o desenho, senão as três letras. */
+    fun typeChip(typeId: String, text: String, background: Int) {
+        target.add(TypeChipInline(TypeIcons.of(typeId), text, background))
     }
 
     fun chip(text: String, background: Int, foreground: Int = RetroPalette.TEXT) {

@@ -119,7 +119,7 @@ internal object BattlePokemonRows {
                 } else {
                     space(labelWidth + 2)
                 }
-                chunk.forEach { id -> chip(TypeNames.short(id), TypeColors.of(ElementalTypes.get(id))) }
+                chunk.forEach { id -> typeChip(id, TypeNames.short(id), TypeColors.of(ElementalTypes.get(id))) }
             }
         }
     }

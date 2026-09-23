@@ -157,6 +157,8 @@ class ShifuMonConfigScreen(private val parent: Screen?) : Screen(Component.trans
                 toggle("shifumon.config.interface.show_resistances", ui.showResistances) { ui.showResistances = it },
                 toggle("shifumon.config.interface.show_strengths", ui.showStrengths) { ui.showStrengths = it },
                 toggle("shifumon.config.interface.show_current_stats", ui.showCurrentStats) { ui.showCurrentStats = it },
+                toggle("shifumon.config.interface.type_icons", ui.typeIcons) { ui.typeIcons = it },
+                toggle("shifumon.config.interface.details_collapsed", ui.detailsCollapsed) { ui.detailsCollapsed = it },
             )
         }
 
@@ -175,6 +177,14 @@ class ShifuMonConfigScreen(private val parent: Screen?) : Screen(Component.trans
                 toggle("shifumon.config.battle.show_move_effectiveness", battle.showMoveEffectiveness) { battle.showMoveEffectiveness = it },
                 toggle("shifumon.config.battle.show_move_tooltip", battle.showMoveTooltip) { battle.showMoveTooltip = it },
                 toggle("shifumon.config.battle.restyle_battle_log", battle.restyleBattleLog) { battle.restyleBattleLog = it },
+                OptionWidget { x, y, width ->
+                    CycleButton.builder<Int> { Component.translatable("shifumon.config.pixels", it) }
+                        .withValues(LOG_HEIGHTS)
+                        .withInitialValue(LOG_HEIGHTS.minBy { abs(it - battle.logExtraHeight) })
+                        .create(x, y, width, 20, Component.translatable("shifumon.config.battle.log_extra_height")) { _, value ->
+                            battle.logExtraHeight = value
+                        }
+                },
             )
         }
 
@@ -289,6 +299,7 @@ class ShifuMonConfigScreen(private val parent: Screen?) : Screen(Component.trans
         private const val ROW_STEP = 22
 
         private val DISTANCES = listOf(6, 8, 12, 16, 24, 32, 48)
+        private val LOG_HEIGHTS = listOf(0, 20, 40, 60, 80, 120, 160)
         private val BOX_SEARCH_HELP = listOf(
             "shifumon.search.help.title", "shifumon.search.help.1", "shifumon.search.help.2", "shifumon.search.help.3",
         )
