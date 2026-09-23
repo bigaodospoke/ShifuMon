@@ -44,7 +44,7 @@ class BattlePokemonHud private constructor(private val allySide: Boolean) : HudE
                 BattlePokemonRows.nameRow(this, view, config, statusInline = false)
                 BattlePokemonRows.typeRow(this, view, config)
                 BattlePokemonRows.hpRow(this, view, config, PANEL_WIDTH - BattlePokemonRows.hpTextSpace(view, config))
-                BattlePokemonRows.detailRows(this, view, config)
+                if (!BattleDetails.collapsed()) BattlePokemonRows.detailRows(this, view, config)
             }
         }
     }

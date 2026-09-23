@@ -1,7 +1,9 @@
 package com.shifumon.hud.panel
 
 import com.shifumon.hud.render.PixelUi
+import com.shifumon.hud.render.RetroPalette
 import com.shifumon.hud.render.TinyFont
+import com.shifumon.hud.render.TypeIcons
 import com.shifumon.shiny.ShinyIcons
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
@@ -71,6 +73,17 @@ class ChipInline(text: String, private val background: Int, private val foregrou
 
     override fun render(graphics: GuiGraphics, x: Int, y: Int) {
         PixelUi.chip(graphics, text, x, y, background, foreground)
+    }
+}
+
+/** Etiqueta de tipo: símbolo quando existe desenho, três letras quando não. */
+class TypeChipInline(private val texture: ResourceLocation?, private val text: String, private val background: Int) : Inline {
+    override val width = if (texture != null) TypeIcons.SIZE + 4 else TinyFont.width(text) + 4
+    override val height = PixelUi.CHIP_HEIGHT
+
+    override fun render(graphics: GuiGraphics, x: Int, y: Int) {
+        if (texture != null) PixelUi.typeChip(graphics, texture, x, y, background)
+        else PixelUi.chip(graphics, text, x, y, background, RetroPalette.TEXT)
     }
 }
 

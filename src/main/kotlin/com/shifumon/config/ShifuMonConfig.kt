@@ -21,6 +21,7 @@ class ShifuMonConfig {
     /** O Gson ignora a nulabilidade do Kotlin; corrige campos ausentes ou inválidos após carregar. */
     @Suppress("SENSELESS_COMPARISON")
     fun sanitize() {
+        battleHud.logExtraHeight = battleHud.logExtraHeight.coerceIn(0, 160)
         if (shiny == null) shiny = ShinyConfig()
         if (pokemonInfo == null) pokemonInfo = PokemonInfoConfig()
         if (interfaceTweaks == null) interfaceTweaks = InterfaceConfig()
@@ -88,6 +89,10 @@ class InterfaceConfig {
     var showWeaknesses = true
     var showResistances = true
     var showStrengths = true
+    /** Símbolos no lugar das três letras nas etiquetas de tipo. */
+    var typeIcons = true
+    /** Miolo dos painéis de batalha recolhido (alterna com a tecla do atalho). */
+    var detailsCollapsed = false
     /** Atributos atuais (exatos nos seus Pokémon, faixa estimada nos do oponente). */
     var showCurrentStats = true
 }
@@ -107,6 +112,8 @@ class BattleHudConfig {
     var showCompetitiveInfo = true
     var restyleMoveButtons = true
     var showMoveEffectiveness = true
+    /** Altura extra do histórico de batalha, em pixels (cresce para cima). */
+    var logExtraHeight = 0
     /** Poder, precisão, PP e descrição ao passar o mouse num golpe. */
     var showMoveTooltip = true
     var restyleBattleLog = true

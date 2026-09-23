@@ -6,13 +6,16 @@ import com.cobblemon.mod.common.client.battle.ClientBallDisplay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.pokemon.Species
+import com.shifumon.battle.BattleDetails
 import com.shifumon.battle.BattlePokemonRows
 import com.shifumon.battle.BattleReader
 import com.shifumon.config.ConfigManager
+import com.shifumon.hud.TooltipLayer
 import com.shifumon.hud.panel.panel
 import com.shifumon.hud.render.Alpha
 import com.shifumon.hud.render.PixelUi
 import com.shifumon.hud.render.RetroPalette
+import com.shifumon.hud.render.TinyFont
 import com.shifumon.util.Colors
 import com.shifumon.util.FeatureGuard
 import com.shifumon.util.TexturePackCheck
@@ -94,7 +97,10 @@ object BattleTileRenderer {
                 BattlePokemonRows.nameRow(this, view, config, statusInline = isCompact)
                 if (!isCompact) BattlePokemonRows.typeRow(this, view, config)
             } ?: return@guard false
-            val details = if (isCompact) null else panel(null) { BattlePokemonRows.detailRows(this, view, config) }
+            // Em duplas o painel é pequeno e fica empilhado: o miolo sai numa dica por cima (mais abaixo),
+            // e não dentro do painel, senão cobriria o painel de baixo
+            val showDetails = !BattleDetails.collapsed()
+            val details = if (isCompact || !showDetails) null else panel(null) { BattlePokemonRows.detailRows(this, view, config) }
             val hpTextSpace = BattlePokemonRows.hpTextSpace(view, config)
 
             val infoWidth = maxOf(identity.contentWidth, MIN_HP_BAR_WIDTH + hpTextSpace, baseWidth - portraitSize - padding * 3)
@@ -138,9 +144,24 @@ object BattleTileRenderer {
                     graphics.fill(left + padding, separatorY, left + width - padding, separatorY + 1, RetroPalette.SEPARATOR)
                     it.renderRows(graphics, left + padding, separatorY + 4, width - padding * 2)
                 }
+
+                // Dica da tecla que recolhe e mostra o miolo do painel
+                if (!isCompact) {
+                    BattleDetails.keyHint()?.let { key ->
+                        val hint = TinyFont.sanitize(if (showDetails) "$key-" else "$key+")
+                        TinyFont.draw(graphics, hint, left + width - 3 - TinyFont.width(hint), topY + height - 6, RetroPalette.TEXT_DIM, shadow = true)
+                    }
+                }
             }
 
             CobblemonPortrait.draw(overlay, graphics, portraitX, portraitY, portraitSize, isCompact, partialTicks, reversed, species, state, ballState)
+
+            // Duplas: o miolo do painel sob o mouse é desenhado no fim do quadro, por cima dos outros
+            if (isCompact && isHovered && showDetails) {
+                val hoverView = BattleReader.pokemonView(battlePokemon, reversed && ConfigManager.config.battleHud.showCompetitiveInfo)
+                panel(accent) { BattlePokemonRows.detailRows(this, hoverView, config) }
+                    ?.let { TooltipLayer.show(it, left + width - 12, topY + 12) }
+            }
 
             if (dexState == PokedexEntryProgress.OWNED) {
                 Alpha.draw(graphics, opacity) {

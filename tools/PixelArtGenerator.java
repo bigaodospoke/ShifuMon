@@ -27,9 +27,218 @@ public final class PixelArtGenerator {
 
     public static void main(String[] args) throws IOException {
         shinyIcons();
+        typeIcons();
         hudIcons();
         modIcon();
         System.out.println("Sprites gerados em " + new File(OUT).getAbsolutePath());
+    }
+
+    // ---------------------------------------------------------------- Icones de tipo (8x8)
+
+    /**
+     * Silhuetas dos 18 tipos, em branco: o mod desenha uma sombra escura atras e usa a cor do
+     * tipo como fundo da etiqueta. As formas sao bem diferentes entre si porque as cores de Terra,
+     * Pedra e Eletrico se parecem demais.
+     */
+    private static void typeIcons() throws IOException {
+        save("textures/gui/types/normal.png", render(new String[]{
+                "..wwww..",
+                ".ww..ww.",
+                "ww....ww",
+                "w......w",
+                "w......w",
+                "ww....ww",
+                ".ww..ww.",
+                "..wwww..",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/fire.png", render(new String[]{
+                "...w....",
+                "..ww....",
+                ".www....",
+                ".wwww...",
+                "wwwwww..",
+                "ww.www..",
+                ".w..ww..",
+                "........",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/water.png", render(new String[]{
+                "...w....",
+                "...ww...",
+                "..wwww..",
+                "..wwww..",
+                ".wwwwww.",
+                "wwwwwwww",
+                ".wwwwww.",
+                "..wwww..",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/electric.png", render(new String[]{
+                "....www.",
+                "...ww...",
+                "..ww....",
+                ".wwwwww.",
+                "....ww..",
+                "...ww...",
+                "..ww....",
+                ".w......",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/grass.png", render(new String[]{
+                "......ww",
+                "....wwww",
+                "..wwwww.",
+                ".wwwwww.",
+                ".wwwww..",
+                ".wwww...",
+                "ww......",
+                "w.......",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/ice.png", render(new String[]{
+                "...w....",
+                ".w.w.w..",
+                "..www...",
+                "wwwwwww.",
+                "..www...",
+                ".w.w.w..",
+                "...w....",
+                "........",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/fighting.png", render(new String[]{
+                "........",
+                ".wwww...",
+                "wwwwww..",
+                "wwwwwww.",
+                "ww.w.ww.",
+                "wwwwwww.",
+                ".wwwww..",
+                "........",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/poison.png", render(new String[]{
+                "..wwww..",
+                ".wwwwww.",
+                "ww.ww.ww",
+                "wwwwwwww",
+                "wwwwwwww",
+                ".ww..ww.",
+                "..wwww..",
+                "........",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/ground.png", render(new String[]{
+                "........",
+                "wwwwwwww",
+                "........",
+                "www.wwww",
+                "........",
+                "wwwww.ww",
+                "........",
+                "wwwwwwww",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/flying.png", render(new String[]{
+                "........",
+                ".ww.....",
+                "wwwww...",
+                "wwwwwww.",
+                ".wwwwww.",
+                "..wwww..",
+                "...ww...",
+                "........",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/psychic.png", render(new String[]{
+                "..wwww..",
+                ".w....w.",
+                "w..ww..w",
+                "w.wwww.w",
+                "w..ww..w",
+                ".w....w.",
+                "..wwww..",
+                "........",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/bug.png", render(new String[]{
+                ".w....w.",
+                "..w..w..",
+                ".wwwwww.",
+                "ww.ww.ww",
+                "wwwwwwww",
+                ".w.ww.w.",
+                ".w....w.",
+                "........",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/rock.png", render(new String[]{
+                "....w...",
+                "...www..",
+                "..wwwww.",
+                ".wwwwwww",
+                "wwwwwwww",
+                "wwwwwwww",
+                "........",
+                "........",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/ghost.png", render(new String[]{
+                "..wwww..",
+                ".wwwwww.",
+                "ww.ww.ww",
+                "wwwwwwww",
+                "wwwwwwww",
+                "wwwwwwww",
+                "w.ww.w.w",
+                "........",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/dragon.png", render(new String[]{
+                "w.......",
+                "ww......",
+                "wwww....",
+                ".wwwww..",
+                "..wwwwww",
+                "...wwww.",
+                "....ww..",
+                "........",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/dark.png", render(new String[]{
+                "..www...",
+                ".wwww...",
+                "wwww....",
+                "wwww....",
+                "wwww....",
+                ".wwww...",
+                "..www...",
+                "........",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/steel.png", render(new String[]{
+                "..w..w..",
+                ".wwwwww.",
+                ".ww..ww.",
+                "ww....ww",
+                "ww....ww",
+                ".ww..ww.",
+                ".wwwwww.",
+                "..w..w..",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
+        save("textures/gui/types/fairy.png", render(new String[]{
+                "...w....",
+                "...w....",
+                ".wwwww..",
+                "wwwwwww.",
+                ".wwwww..",
+                "...w....",
+                "...w....",
+                "........",
+        }, null, Map.of('w', 0xFFFFFFFF), false), 1);
+
     }
 
     // ------------------------------------------------------------------ Ícones de shiny (16x16)

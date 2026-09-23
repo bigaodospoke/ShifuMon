@@ -3,6 +3,7 @@ package com.shifumon.hud.render
 import com.shifumon.util.Colors
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.network.chat.Component
 import kotlin.math.roundToInt
 
@@ -54,6 +55,12 @@ object PixelUi {
     fun chip(graphics: GuiGraphics, text: String, x: Int, y: Int, background: Int, foreground: Int) {
         box(graphics, x, y, TinyFont.width(text) + 4, CHIP_HEIGHT, background)
         TinyFont.draw(graphics, text, x + 2, y + 2, foreground)
+    }
+
+    /** Etiqueta com o símbolo do tipo no lugar das três letras. */
+    fun typeChip(graphics: GuiGraphics, texture: ResourceLocation, x: Int, y: Int, background: Int) {
+        box(graphics, x, y, TypeIcons.SIZE + 4, CHIP_HEIGHT, background)
+        TypeIcons.draw(graphics, texture, x + 2, y + 1)
     }
 
     /** Barra de HP no estilo Gen 3: rótulo "HP", trilho escuro e cor por faixa de vida. */
