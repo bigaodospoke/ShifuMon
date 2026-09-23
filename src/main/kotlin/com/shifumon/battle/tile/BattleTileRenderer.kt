@@ -125,6 +125,10 @@ object BattleTileRenderer {
             val infoX = if (reversed) left + padding else portraitX + portraitSize + padding
             val accent = colour?.let(::toColor) ?: if (reversed) RetroPalette.ACCENT_OPPONENT else RetroPalette.ACCENT_ALLY
 
+            // O Cobblemon sempre manda "mouse em cima = falso" para os painéis do HUD, então o mod
+            // descobre sozinho: é o que abre os detalhes em duplas e destaca o painel sob o cursor
+            val pointed = isHovered || mouseOver(left, topY, width, height)
+
             Alpha.draw(graphics, opacity) {
                 actorDisplayName?.let { name ->
                     val font = Minecraft.getInstance().font
@@ -132,7 +136,7 @@ object BattleTileRenderer {
                     graphics.drawString(font, name, nameX, topY - 10, RetroPalette.TEXT_DIM, true)
                 }
                 PixelUi.panel(graphics, left, topY, width, height, accent)
-                if (isHovered) graphics.fill(left + 1, topY + 1, left + width - 1, topY + height - 1, 0x18FFFFFF)
+                if (pointed) graphics.fill(left + 1, topY + 1, left + width - 1, topY + height - 1, 0x18FFFFFF)
                 if (isSelected && (Util.getMillis() / 400) % 2 == 0L) {
                     PixelUi.outline(graphics, left - 1, topY - 1, width + 2, height + 2, RetroPalette.SHINY)
                 }
@@ -156,8 +160,9 @@ object BattleTileRenderer {
 
             CobblemonPortrait.draw(overlay, graphics, portraitX, portraitY, portraitSize, isCompact, partialTicks, reversed, species, state, ballState)
 
-            // Duplas: o miolo do painel sob o mouse é desenhado no fim do quadro, por cima dos outros
-            if (isCompact && isHovered && showDetails) {
+            // O miolo sai numa dica por cima quando não cabe dentro do painel: em duplas (painel compacto,
+            // empilhado) e quando os detalhes estão recolhidos, onde serve de espiada rápida
+            if (pointed && (isCompact || !showDetails)) {
                 val hoverView = BattleReader.pokemonView(battlePokemon, reversed && ConfigManager.config.battleHud.showCompetitiveInfo)
                 panel(accent) { BattlePokemonRows.detailRows(this, hoverView, config) }
                     ?.let { TooltipLayer.show(it, left + width - 12, topY + 12) }
@@ -170,6 +175,17 @@ object BattleTileRenderer {
             }
             true
         }
+    }
+
+    /** O mouse só existe quando alguma tela está aberta; no jogo ele fica preso à câmera. */
+    private fun mouseOver(left: Int, top: Int, width: Int, height: Int): Boolean {
+        val client = Minecraft.getInstance()
+        if (client.screen == null) return false
+        val window = client.window
+        if (window.screenWidth == 0 || window.screenHeight == 0) return false
+        val mouseX = client.mouseHandler.xpos() * window.guiScaledWidth / window.screenWidth
+        val mouseY = client.mouseHandler.ypos() * window.guiScaledHeight / window.screenHeight
+        return mouseX >= left && mouseX < left + width && mouseY >= top && mouseY < top + height
     }
 
     private fun portraitWindow(graphics: GuiGraphics, x: Int, y: Int, size: Int) {

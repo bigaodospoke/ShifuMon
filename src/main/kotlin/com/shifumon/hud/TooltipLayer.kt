@@ -12,13 +12,19 @@ object TooltipLayer {
     private const val MOUSE_OFFSET = 12
     private const val SCREEN_MARGIN = 2
 
+    /** A dica vale por poucos quadros: quem a pede, pede de novo a cada quadro. */
+    private const val LIFETIME_MS = 200L
+
     private var pending: Panel? = null
+    private var pendingAt = 0L
     private var mouseX = 0
     private var mouseY = 0
 
     fun register() {
+        // O HUD (onde ficam os painéis de batalha) é desenhado antes da tela, então o pedido dele
+        // precisa sobreviver até o fim do quadro; por isso a validade por tempo, e não uma limpeza
+        // no início do desenho da tela
         ScreenEvents.AFTER_INIT.register { _, screen, _, _ ->
-            ScreenEvents.beforeRender(screen).register { _, _, _, _, _ -> pending = null }
             ScreenEvents.afterRender(screen).register { _, graphics, _, _, _ -> flush(graphics) }
         }
     }
@@ -26,6 +32,7 @@ object TooltipLayer {
     /** Pede a dica neste quadro, ao lado do mouse. */
     fun show(panel: Panel, mouseX: Int, mouseY: Int) {
         pending = panel
+        pendingAt = System.currentTimeMillis()
         this.mouseX = mouseX
         this.mouseY = mouseY
     }
@@ -33,6 +40,7 @@ object TooltipLayer {
     private fun flush(graphics: GuiGraphics) {
         val panel = pending ?: return
         pending = null
+        if (System.currentTimeMillis() - pendingAt > LIFETIME_MS) return
         // À direita do mouse; à esquerda se não couber
         var x = mouseX + MOUSE_OFFSET
         if (x + panel.width > graphics.guiWidth() - SCREEN_MARGIN) x = mouseX - MOUSE_OFFSET - panel.width
