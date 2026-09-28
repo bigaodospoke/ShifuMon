@@ -29,6 +29,7 @@
   "shifumon.config.shiny.reload_custom": "Recarregar ícone",
   "shifumon.config.shiny.custom_hint": "Customizado: coloque %s na pasta de config (16x16)",
   "shifumon.shiny.style.cobblemon": "Padrão",
+  "shifumon.shiny.style.sparkle": "Brilho",
   "shifumon.shiny.style.star": "Estrela",
   "shifumon.shiny.style.square": "Quadrado",
   "shifumon.shiny.style.diamond": "Diamante",
@@ -210,5 +211,14 @@
   "shifumon.config.interface.details_collapsed": "Detalhes recolhidos",
 
   "shifumon.config.battle.log_extra_height": "Altura do histórico",
-  "shifumon.config.pixels": "+%s px"
+  "shifumon.config.pixels": "+%s px",
+
+  "shifumon.battle.opponent_team": "TIME DO OPONENTE",
+  "shifumon.battle.opponent_missing": "FALTAM %s",
+  "shifumon.config.battle.show_opponent_team": "Time do oponente",
+
+  "shifumon.pc.box_label": "Caixa %s",
+  "shifumon.pc.save_box": "Salvar esta caixa",
+  "shifumon.pc.unsave_box": "Tirar dos salvos",
+  "shifumon.config.pc.favorite_boxes": "Caixas favoritas"
 }

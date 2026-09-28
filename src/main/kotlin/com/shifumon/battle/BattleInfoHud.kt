@@ -69,6 +69,22 @@ object BattleInfoHud : HudElement {
                     }
                 }
             }
+            if (config.showOpponentTeam) {
+                view.opponentTeam?.let { team ->
+                    row {
+                        tiny(TinyFont.sanitize(I18n.get("shifumon.battle.opponent_team")), RetroPalette.ACCENT_OPPONENT)
+                        right {
+                            if (team.total > 0) {
+                                tiny("${team.seen}/${team.total}")
+                                val missing = (team.total - team.seen).coerceAtLeast(0)
+                                if (missing > 0) tiny(TinyFont.sanitize(I18n.get("shifumon.battle.opponent_missing", missing)), RetroPalette.TEXT_DIM)
+                            } else {
+                                tiny("${team.seen}")
+                            }
+                        }
+                    }
+                }
+            }
             if (config.showSideConditions) {
                 sideRows("shifumon.battle.side.ally", RetroPalette.ACCENT_ALLY, view.allySide)
                 sideRows("shifumon.battle.side.opponent", RetroPalette.ACCENT_OPPONENT, view.opponentSide)

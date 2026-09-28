@@ -1,0 +1,17 @@
+{
+  "rpo.punchymonConfig.title": "[Chilli´s] Punchy! Itens do Cobblemon – Configurações",
+  "rpo.punchymonConfig.visuals.title": "Visual",
+  "rpo.punchymonConfig.visuals.animations": "Animações do Punchy!",
+  "rpo.punchymonConfig.visuals.emissive": "Efeitos Emissivos / Brilho",
+  "rpo.punchymonConfig.categories.title": "Categorias de Itens",
+  "rpo.punchymonConfig.categories.apricorns": "Bolotas",
+  "rpo.punchymonConfig.categories.apricorns.vanilla": "Padrão 2D",
+  "rpo.punchymonConfig.categories.medicine": "Remédios e Poções",
+  "rpo.punchymonConfig.categories.vitamins": "Vitaminas e Itens de PP",
+  "rpo.punchymonConfig.categories.revival": "Itens de Reviver",
+  "rpo.punchymonConfig.categories.battleItems": "Itens de Batalha (Itens X)",
+  "rpo.punchymonConfig.categories.campfirePots": "Panelas de Fogueira",
+  "rpo.punchymonConfig.categories.miscellaneous": "Diversos",
+  "rpo.punchymonConfig.categories.fishingRods": "Varas de Pesca",
+  "rpo.punchymonConfig.categories.berries": "Bagas (3D)"
+}

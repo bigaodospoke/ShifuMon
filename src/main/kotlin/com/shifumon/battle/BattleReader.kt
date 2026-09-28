@@ -29,8 +29,9 @@ object BattleReader {
     fun active(side: ClientBattleSide): List<ClientBattlePokemon> =
         side.activeClientBattlePokemon.mapNotNull { it.battlePokemon }
 
+    /** Tipagem em uso: a que golpes, Terastal ou mega mudaram, ou a da forma atual. */
     fun types(pokemon: ClientBattlePokemon): List<ElementalType> =
-        pokemon.species.getForm(pokemon.properties.aspects).types.toList()
+        BattleTypeTracker.typesFor(pokemon) ?: pokemon.species.getForm(pokemon.properties.aspects).types.toList()
 
     fun isAlly(pokemon: ClientBattlePokemon): Boolean {
         val battle = battle() ?: return false
@@ -81,7 +82,20 @@ object BattleReader {
             fieldEffects = field.fieldEffects.values.map(::view),
             allySide = field.allySide.values.map(::view),
             opponentSide = field.opponentSide.values.map(::view),
+            opponentTeam = opponentTeam(battle, field),
         )
+    }
+
+    /**
+     * Time do oponente: quantos já apareceram e quantos são ao todo. O servidor manda a lista de
+     * Pokémon de cada treinador (é dela que sai a fileira de bolas do Cobblemon), mas em batalha
+     * contra selvagem ela não existe, e aí só dá para contar os que apareceram.
+     */
+    private fun opponentTeam(battle: ClientBattle, field: BattleTracker.FieldState): TeamCountView? {
+        val total = opponentSide(battle).actors.sumOf { it.pokemon.size }
+        val seen = field.seenOpponents.size
+        if (seen == 0) return null
+        return TeamCountView(seen, total)
     }
 
     fun pokemonView(pokemon: ClientBattlePokemon, withCompetitive: Boolean): BattlePokemonView {

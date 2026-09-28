@@ -49,6 +49,9 @@ object BattleTracker {
         val allySide: MutableMap<String, TimedEffect> = LinkedHashMap()
         val opponentSide: MutableMap<String, TimedEffect> = LinkedHashMap()
 
+        /** Pokémon do oponente que já entraram em campo: o resto do time continua escondido. */
+        val seenOpponents: MutableSet<UUID> = LinkedHashSet()
+
         /** Trocas após desmaio acontecem depois do fim de turno. */
         internal var faintedThisTurn = false
         /** Nomes da última mensagem de golpe, habilidade ou troca: quem criou o próximo efeito. */
@@ -67,7 +70,14 @@ object BattleTracker {
 
     fun register() {
         ClientTickEvents.END_CLIENT_TICK.register {
-            stateFor(FeatureGuard.guard("battle.tracker", null) { CobblemonClient.battle?.battleId })
+            FeatureGuard.guard("battle.tracker", Unit) {
+                val battle = CobblemonClient.battle
+                val state = stateFor(battle?.battleId)
+                // Anotado a cada tique porque um Pokémon pode entrar e sair entre duas mensagens
+                if (battle != null) {
+                    BattleReader.active(BattleReader.opponentSide(battle)).forEach { state.seenOpponents += it.uuid }
+                }
+            }
         }
     }
 
@@ -95,6 +105,9 @@ object BattleTracker {
         }
         FeatureGuard.guard("battle.boosts", Unit) {
             BattleBoostTracker.record(CobblemonClient.battle?.battleId, messages)
+        }
+        FeatureGuard.guard("battle.types", Unit) {
+            BattleTypeTracker.record(CobblemonClient.battle?.battleId, messages)
         }
     }
 

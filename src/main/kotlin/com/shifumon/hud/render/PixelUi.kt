@@ -57,10 +57,9 @@ object PixelUi {
         TinyFont.draw(graphics, text, x + 2, y + 2, foreground)
     }
 
-    /** Etiqueta com o símbolo do tipo no lugar das três letras. */
-    fun typeChip(graphics: GuiGraphics, texture: ResourceLocation, x: Int, y: Int, background: Int) {
-        box(graphics, x, y, TypeIcons.SIZE + 4, CHIP_HEIGHT, background)
-        TypeIcons.draw(graphics, texture, x + 2, y + 1)
+    /** Etiqueta de tipo: o tile do tipo, que já tem fundo e moldura próprios. */
+    fun typeChip(graphics: GuiGraphics, texture: ResourceLocation, x: Int, y: Int) {
+        TypeIcons.draw(graphics, texture, x, y)
     }
 
     /** Barra de HP no estilo Gen 3: rótulo "HP", trilho escuro e cor por faixa de vida. */

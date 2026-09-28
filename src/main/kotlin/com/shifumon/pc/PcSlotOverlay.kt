@@ -4,11 +4,12 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.client.gui.pc.StorageSlot
 import com.cobblemon.mod.common.pokemon.IVs
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.shifumon.ShifuMon
 import com.shifumon.config.ConfigManager
 import com.shifumon.shiny.ShinyIcons
-import com.shifumon.util.Colors
 import com.shifumon.util.FeatureGuard
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.resources.ResourceLocation
 
 /**
  * Marcas extras nos slots do PC: ícone de shiny e uma bolinha indicando a qualidade dos IVs.
@@ -19,16 +20,11 @@ import net.minecraft.client.gui.GuiGraphics
 object PcSlotOverlay {
     private const val SLOT_SIZE = StorageSlot.SIZE
     private const val SHINY_SIZE = 8
-    private const val ORB_SIZE = 6
-    private const val ORB_SHADE_FROM_ROW = 4
+    private const val ORB_SIZE = 7
 
     private val statOrder = listOf(
         Stats.HP, Stats.ATTACK, Stats.DEFENCE, Stats.SPECIAL_ATTACK, Stats.SPECIAL_DEFENCE, Stats.SPEED,
     )
-
-    /** Linhas da bolinha 6x6: contorno, corpo e a parte de baixo sombreada. */
-    private val orbOutline = listOf(1 to 5, 0 to 6, 0 to 6, 0 to 6, 0 to 6, 1 to 5)
-    private val orbBody = listOf(2 to 4, 1 to 5, 1 to 5, 1 to 5, 1 to 5, 2 to 4)
 
     /** Chamado pelo mixin no fim de `StorageSlot.renderSlot`. */
     @JvmStatic
@@ -51,39 +47,33 @@ object PcSlotOverlay {
         }
     }
 
-    /** Dourada: seis IVs máximos. Azul: quase perfeito. Roxa: todos os IVs zerados. */
-    private enum class IvTier(val color: Int, val sparkle: Boolean) {
-        PERFECT(0xFFF8D050.toInt(), true),
-        HIGH(0xFF3C9BF0.toInt(), false),
-        ZERO(0xFFA85CF0.toInt(), false),
+    /** Dourada: seis IVs máximos. Azul: cinco. Vermelha: quatro. Roxa: todos zerados. */
+    private enum class IvTier(textureName: String) {
+        PERFECT("iv_perfect"),
+        HIGH("iv_high"),
+        MID("iv_mid"),
+        ZERO("iv_zero");
+
+        val texture: ResourceLocation = ShifuMon.id("textures/gui/pc/$textureName.png")
     }
 
+    /**
+     * O limite da config decide a partir de quantos IVs máximos a bolinha aparece; seis máximos e
+     * todos zerados aparecem sempre, porque são os dois extremos que interessam de longe.
+     */
     private fun ivTier(pokemon: Pokemon, minimumPerfect: Int): IvTier? {
         val values = statOrder.map { pokemon.ivs.getOrDefault(it) }
         val perfect = values.count { it >= IVs.MAX_VALUE }
         return when {
             perfect >= statOrder.size -> IvTier.PERFECT
             values.all { it == 0 } -> IvTier.ZERO
-            perfect >= minimumPerfect.coerceAtLeast(1) -> IvTier.HIGH
-            else -> null
+            perfect < minimumPerfect.coerceIn(1, 6) -> null
+            perfect >= 5 -> IvTier.HIGH
+            else -> IvTier.MID
         }
     }
 
-    /** Esfera 6x6: contorno escuro, sombra embaixo e brilho em cima à esquerda. */
     private fun drawOrb(graphics: GuiGraphics, x: Int, y: Int, tier: IvTier) {
-        val outline = Colors.darken(tier.color, 0.28f)
-        val shade = Colors.darken(tier.color, 0.68f)
-        val light = Colors.lighten(tier.color, 0.55f)
-
-        orbOutline.forEachIndexed { row, (start, end) ->
-            graphics.fill(x + start, y + row, x + end, y + row + 1, outline)
-        }
-        orbBody.forEachIndexed { row, (start, end) ->
-            graphics.fill(x + start, y + row, x + end, y + row + 1, if (row >= ORB_SHADE_FROM_ROW) shade else tier.color)
-        }
-        // brilho: um ponto claro, como uma bolinha de vidro
-        graphics.fill(x + 2, y + 1, x + 3, y + 2, light)
-        graphics.fill(x + 1, y + 2, x + 2, y + 3, light)
-        if (tier.sparkle) graphics.fill(x + 3, y + 3, x + 4, y + 4, Colors.lighten(tier.color, 0.9f))
+        graphics.blit(tier.texture, x, y, ORB_SIZE, ORB_SIZE, 0f, 0f, ORB_SIZE, ORB_SIZE, ORB_SIZE, ORB_SIZE)
     }
 }

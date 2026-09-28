@@ -78,11 +78,11 @@ class ChipInline(text: String, private val background: Int, private val foregrou
 
 /** Etiqueta de tipo: símbolo quando existe desenho, três letras quando não. */
 class TypeChipInline(private val texture: ResourceLocation?, private val text: String, private val background: Int) : Inline {
-    override val width = if (texture != null) TypeIcons.SIZE + 4 else TinyFont.width(text) + 4
-    override val height = PixelUi.CHIP_HEIGHT
+    override val width = if (texture != null) TypeIcons.SIZE else TinyFont.width(text) + 4
+    override val height = if (texture != null) TypeIcons.SIZE else PixelUi.CHIP_HEIGHT
 
     override fun render(graphics: GuiGraphics, x: Int, y: Int) {
-        if (texture != null) PixelUi.typeChip(graphics, texture, x, y, background)
+        if (texture != null) PixelUi.typeChip(graphics, texture, x, y)
         else PixelUi.chip(graphics, text, x, y, background, RetroPalette.TEXT)
     }
 }
