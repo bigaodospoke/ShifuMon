@@ -17,8 +17,16 @@ data class CompetitiveView(
 /** Efeito em campo; [remaining] = turnos restantes contando o atual (faixa quando um item pode estender). */
 data class FieldEffectView(val id: String, val remaining: IntRange?, val layers: Int = 1)
 
-/** Quantos Pokémon do oponente já apareceram e de quantos é o time (0 = o servidor não contou). */
-data class TeamCountView(val seen: Int, val total: Int)
+/** Um Pokémon do oponente que já apareceu em campo. */
+data class SeenPokemonView(val name: Component, val fainted: Boolean)
+
+/**
+ * Time do oponente: quem já apareceu (na ordem em que entrou) e de quantos é o time.
+ * [total] em 0 quer dizer que o servidor não informou o tamanho, como acontece contra selvagens.
+ */
+data class TeamCountView(val seen: List<SeenPokemonView>, val total: Int) {
+    val missing: Int get() = (total - seen.size).coerceAtLeast(0)
+}
 
 data class BattleInfoView(
     val turn: Int,

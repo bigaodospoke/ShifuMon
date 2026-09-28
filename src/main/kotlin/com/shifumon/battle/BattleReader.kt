@@ -93,8 +93,8 @@ object BattleReader {
      */
     private fun opponentTeam(battle: ClientBattle, field: BattleTracker.FieldState): TeamCountView? {
         val total = opponentSide(battle).actors.sumOf { it.pokemon.size }
-        val seen = field.seenOpponents.size
-        if (seen == 0) return null
+        val seen = field.seenOpponents.values.map { SeenPokemonView(it.name, it.fainted) }
+        if (seen.isEmpty()) return null
         return TeamCountView(seen, total)
     }
 
