@@ -29,6 +29,7 @@
   "shifumon.config.shiny.reload_custom": "Reload icon",
   "shifumon.config.shiny.custom_hint": "Custom: put %s in the config folder (16x16)",
   "shifumon.shiny.style.cobblemon": "Default",
+  "shifumon.shiny.style.sparkle": "Sparkle",
   "shifumon.shiny.style.star": "Star",
   "shifumon.shiny.style.square": "Square",
   "shifumon.shiny.style.diamond": "Diamond",
@@ -210,5 +211,14 @@
   "shifumon.config.interface.details_collapsed": "Details collapsed",
 
   "shifumon.config.battle.log_extra_height": "Log height",
-  "shifumon.config.pixels": "+%s px"
+  "shifumon.config.pixels": "+%s px",
+
+  "shifumon.battle.opponent_team": "OPPONENT TEAM",
+  "shifumon.battle.opponent_missing": "%s LEFT",
+  "shifumon.config.battle.show_opponent_team": "Opponent team",
+
+  "shifumon.pc.box_label": "Box %s",
+  "shifumon.pc.save_box": "Save this box",
+  "shifumon.pc.unsave_box": "Remove from saved",
+  "shifumon.config.pc.favorite_boxes": "Favourite boxes"
 }

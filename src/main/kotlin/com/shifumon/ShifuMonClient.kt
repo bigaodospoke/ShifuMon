@@ -4,6 +4,7 @@ import com.shifumon.battle.BattleTracker
 import com.shifumon.boxsearch.BoxSearchOverlay
 import com.shifumon.config.ConfigManager
 import com.shifumon.hud.HudManager
+import com.shifumon.pc.PcFavoriteBoxes
 import com.shifumon.hud.TooltipLayer
 import com.shifumon.keybind.ShifuMonKeys
 import com.shifumon.pokemoninfo.PokemonLookTracker
@@ -21,6 +22,7 @@ object ShifuMonClient : ClientModInitializer {
         PokemonLookTracker.register()
         BattleTracker.register()
         BoxSearchOverlay.register()
+        PcFavoriteBoxes.register()
         HudManager.register()
         TooltipLayer.register()
         ShifuMon.LOGGER.info("{} inicializado", ShifuMon.MOD_NAME)

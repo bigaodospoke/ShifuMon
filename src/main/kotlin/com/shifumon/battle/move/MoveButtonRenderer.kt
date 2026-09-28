@@ -75,9 +75,9 @@ object MoveButtonRenderer {
             // Linha 1: tipo + nome
             val typeLabel = TypeNames.short(type.name)
             val typeIcon = TypeIcons.of(type.name)
-            val typeWidth = if (typeIcon != null) TypeIcons.SIZE + 4 else TinyFont.width(typeLabel) + 4
+            val typeWidth = if (typeIcon != null) TypeIcons.SIZE else TinyFont.width(typeLabel) + 4
             if (typeIcon != null) {
-                PixelUi.typeChip(graphics, typeIcon, x + 3, y + 2, Colors.darken(typeColor, 0.55f))
+                PixelUi.typeChip(graphics, typeIcon, x + 3, y + 1)
             } else {
                 PixelUi.chip(graphics, typeLabel, x + 3, y + 2, Colors.darken(typeColor, 0.55f), RetroPalette.TEXT)
             }

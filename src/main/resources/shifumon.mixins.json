@@ -11,6 +11,7 @@
     "cobblemon.BattleOverlayMixin",
     "cobblemon.GuiUtilsMixin",
     "cobblemon.MoveTileMixin",
+    "cobblemon.PCGUIMixin",
     "cobblemon.SearchCompanionMixin",
     "cobblemon.StorageSlotMixin",
     "cobblemon.StorageWidgetMixin",

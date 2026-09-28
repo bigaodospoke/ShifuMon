@@ -3,6 +3,7 @@ package com.shifumon.shiny
 /** Estilos do ícone de shiny. [textureName] aponta para `textures/gui/shiny/<nome>.png`. */
 enum class ShinyStyle(val textureName: String?) {
     COBBLEMON(null),
+    SPARKLE("sparkle"),
     STAR("star"),
     SQUARE("square"),
     DIAMOND("diamond"),

@@ -30,6 +30,8 @@ class ShifuMonConfig {
         if (pc == null) pc = PcConfig()
         if (hud == null) hud = HudLayoutConfig()
         pc.minPerfectIvs = pc.minPerfectIvs.coerceIn(1, 6)
+        if (pc.favoriteBoxes == null) pc.favoriteBoxes = LinkedHashSet()
+        pc.favoriteBoxes.removeIf { it == null || it < 0 }
         if (pc.shifumonWallpaperBoxes == null) pc.shifumonWallpaperBoxes = LinkedHashSet()
         pc.shifumonWallpaperBoxes.removeIf { it == null || it < 0 }
 
@@ -49,7 +51,7 @@ class ShifuMonConfig {
 
 class ShinyConfig {
     var enabled = true
-    var style = ShinyStyle.STAR
+    var style = ShinyStyle.SPARKLE
     var customIconFile = DEFAULT_CUSTOM_ICON
 
     companion object {
@@ -104,6 +106,8 @@ class BattleHudConfig {
     var showWeather = true
     var showTerrain = true
     var showFieldEffects = true
+    /** Quantos Pokémon do time do oponente já apareceram. */
+    var showOpponentTeam = true
     /** Reflect, Tailwind, Spikes... de cada lado do campo. */
     var showSideConditions = true
     /** Quantos turnos faltam para cada clima, terreno e efeito acabar. */
@@ -128,7 +132,11 @@ class PcConfig {
     var showShinyIcon = true
     var showIvBadge = true
     /** A partir de quantos IVs máximos o selo aparece (6 = só F6). */
-    var minPerfectIvs = 5
+    var minPerfectIvs = 4
+    /** Fileira de atalhos das caixas favoritas, em cima do quadro do PC. */
+    var favoriteBoxesBar = true
+    /** Caixas marcadas como favoritas (guardadas no cliente). */
+    var favoriteBoxes: MutableSet<Int> = LinkedHashSet()
     /** Oferece o papel de parede do ShifuMon como mais uma opção na lista do PC. */
     var shifumonWallpaper = true
     /** Caixas que estão usando o papel de parede do ShifuMon, escolhido na lista do PC.

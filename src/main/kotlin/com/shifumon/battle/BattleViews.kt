@@ -17,6 +17,9 @@ data class CompetitiveView(
 /** Efeito em campo; [remaining] = turnos restantes contando o atual (faixa quando um item pode estender). */
 data class FieldEffectView(val id: String, val remaining: IntRange?, val layers: Int = 1)
 
+/** Quantos Pokémon do oponente já apareceram e de quantos é o time (0 = o servidor não contou). */
+data class TeamCountView(val seen: Int, val total: Int)
+
 data class BattleInfoView(
     val turn: Int,
     val weather: FieldEffectView?,
@@ -24,6 +27,7 @@ data class BattleInfoView(
     val fieldEffects: List<FieldEffectView>,
     val allySide: List<FieldEffectView>,
     val opponentSide: List<FieldEffectView>,
+    val opponentTeam: TeamCountView? = null,
 )
 
 /** Valor atual de um atributo, com estágios, paralisia e Tailwind; [trend] > 0 = aumentado, < 0 = reduzido. */

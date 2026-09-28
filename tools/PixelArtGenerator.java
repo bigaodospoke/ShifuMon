@@ -244,6 +244,25 @@ public final class PixelArtGenerator {
     // ------------------------------------------------------------------ Ícones de shiny (16x16)
 
     private static void shinyIcons() throws IOException {
+        save("textures/gui/shiny/sparkle.png", render(new String[]{
+                ".......##.......",
+                ".......##.......",
+                "......####......",
+                "......####......",
+                ".....######.....",
+                "....########....",
+                "..#####WW#####..",
+                "######WWWW######",
+                "######WWWW######",
+                "..#####WW#####..",
+                "....########....",
+                ".....######.....",
+                "......####......",
+                "......####......",
+                ".......##.......",
+                ".......##.......",
+        }, new Body(0xFF7A5300, 0xFFFFF3B0, 0xFFFFC61E, 0xFFE09000), Map.of('W', 0xFFFFFFFF), false), 1);
+
         save("textures/gui/shiny/star.png", render(new String[]{
                 "................",
                 ".......##.......",
