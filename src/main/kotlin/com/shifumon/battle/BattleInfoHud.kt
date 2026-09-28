@@ -71,16 +71,24 @@ object BattleInfoHud : HudElement {
             }
             if (config.showOpponentTeam) {
                 view.opponentTeam?.let { team ->
+                    separator()
                     row {
                         tiny(TinyFont.sanitize(I18n.get("shifumon.battle.opponent_team")), RetroPalette.ACCENT_OPPONENT)
-                        right {
-                            if (team.total > 0) {
-                                tiny("${team.seen}/${team.total}")
-                                val missing = (team.total - team.seen).coerceAtLeast(0)
-                                if (missing > 0) tiny(TinyFont.sanitize(I18n.get("shifumon.battle.opponent_missing", missing)), RetroPalette.TEXT_DIM)
-                            } else {
-                                tiny("${team.seen}")
-                            }
+                        if (team.total > 0) right { tiny("${team.seen.size}/${team.total}") }
+                    }
+                    // Quem já apareceu, na ordem em que entrou; os desmaiados ficam apagados e com "KO"
+                    team.seen.forEach { pokemon ->
+                        row {
+                            chip(">", if (pokemon.fainted) RetroPalette.BOOST_DOWN else RetroPalette.ACCENT_OPPONENT)
+                            text(pokemon.name, if (pokemon.fainted) RetroPalette.TEXT_DIM else RetroPalette.TEXT)
+                            if (pokemon.fainted) right { tiny(TinyFont.sanitize(I18n.get("shifumon.battle.fainted_short")), RetroPalette.NEGATIVE) }
+                        }
+                    }
+                    if (team.missing > 0) {
+                        row(gap = 2) {
+                            space(2)
+                            repeat(team.missing.coerceAtMost(6)) { chip("?", RetroPalette.UNKNOWN) }
+                            right { tiny(TinyFont.sanitize(I18n.get("shifumon.battle.opponent_missing", team.missing)), RetroPalette.TEXT_DIM) }
                         }
                     }
                 }

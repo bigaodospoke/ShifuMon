@@ -220,5 +220,7 @@
   "shifumon.pc.box_label": "Box %s",
   "shifumon.pc.save_box": "Save this box",
   "shifumon.pc.unsave_box": "Remove from saved",
-  "shifumon.config.pc.favorite_boxes": "Favourite boxes"
+  "shifumon.config.pc.favorite_boxes": "Favourite boxes",
+
+  "shifumon.battle.fainted_short": "KO"
 }

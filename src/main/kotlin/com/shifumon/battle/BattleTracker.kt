@@ -41,6 +41,9 @@ object BattleTracker {
         }
     }
 
+    /** Um Pokémon do oponente que já apareceu; o nome é o que o jogador viu na tela. */
+    class SeenOpponent(val name: Component, var fainted: Boolean = false)
+
     class FieldState(val battleId: UUID?) {
         var turn = 0
         var weather: TimedEffect? = null
@@ -50,7 +53,8 @@ object BattleTracker {
         val opponentSide: MutableMap<String, TimedEffect> = LinkedHashMap()
 
         /** Pokémon do oponente que já entraram em campo: o resto do time continua escondido. */
-        val seenOpponents: MutableSet<UUID> = LinkedHashSet()
+        /** Pokémon do oponente que já entraram em campo, na ordem, com quem já desmaiou. */
+        val seenOpponents: MutableMap<UUID, SeenOpponent> = LinkedHashMap()
 
         /** Trocas após desmaio acontecem depois do fim de turno. */
         internal var faintedThisTurn = false
@@ -75,7 +79,9 @@ object BattleTracker {
                 val state = stateFor(battle?.battleId)
                 // Anotado a cada tique porque um Pokémon pode entrar e sair entre duas mensagens
                 if (battle != null) {
-                    BattleReader.active(BattleReader.opponentSide(battle)).forEach { state.seenOpponents += it.uuid }
+                    BattleReader.active(BattleReader.opponentSide(battle)).forEach { pokemon ->
+                        state.seenOpponents.getOrPut(pokemon.uuid) { SeenOpponent(pokemon.displayName.copy()) }
+                    }
                 }
             }
         }
@@ -128,7 +134,13 @@ object BattleTracker {
                 state.lastActor = emptyList()
             }
 
-            key == "${BATTLE}fainted" -> state.faintedThisTurn = true
+            key == "${BATTLE}fainted" -> {
+                state.faintedThisTurn = true
+                // A mensagem chega enquanto o Pokémon ainda está em campo, então dá para saber quem foi
+                BattleReader.activeFromNames(args.mapNotNull { (it as? Component)?.string })?.let { pokemon ->
+                    state.seenOpponents[pokemon.uuid]?.fainted = true
+                }
+            }
 
             // Golpes criam salas e telas; habilidades de entrada (Drizzle, Surges) criam clima e terreno
             key == "${BATTLE}used_move" || key == "${BATTLE}used_move_on" || key == "${BATTLE}ability.generic" ||
