@@ -102,7 +102,7 @@ object BattleTypeTracker {
     private fun currentTypes(uuid: UUID): List<ElementalType>? {
         val battle = CobblemonClient.battle ?: return null
         val pokemon = battle.sides.flatMap(BattleReader::active).firstOrNull { it.uuid == uuid } ?: return null
-        return pokemon.species.getForm(pokemon.properties.aspects).types.toList()
+        return BattleReader.form(pokemon).types.toList()
     }
 
     /**
@@ -110,7 +110,7 @@ object BattleTypeTracker {
      * a tipagem dela é a que está em uso e nada muda aqui.
      */
     private fun megaTypes(pokemon: ClientBattlePokemon): List<ElementalType>? {
-        val current = pokemon.species.getForm(pokemon.properties.aspects)
+        val current = BattleReader.form(pokemon)
         if (current.name.contains("mega", ignoreCase = true)) return null
         val mega = pokemon.species.forms.firstOrNull { it.name.contains("mega", ignoreCase = true) } ?: return null
         return mega.types.toList()

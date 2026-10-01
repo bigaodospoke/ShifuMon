@@ -23,7 +23,7 @@ internal object BattleStats {
         val maxEv = if (!ally && BattleReader.isWildBattle()) 0 else MAX_EV
         val paralyzed = pokemon.status?.showdownName == "par"
         val tailwind = hasTailwind(ally)
-        val form = pokemon.species.getForm(pokemon.properties.aspects)
+        val form = BattleReader.form(pokemon)
 
         val values = stats.map { stat ->
             val (min, max) = if (owned != null) {
