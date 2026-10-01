@@ -6,6 +6,7 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.battle.ClientBattlePokemon
 import com.cobblemon.mod.common.client.battle.ClientBattleSide
+import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.abilities.HiddenAbilityType
 import com.shifumon.util.StatNames
@@ -29,9 +30,21 @@ object BattleReader {
     fun active(side: ClientBattleSide): List<ClientBattlePokemon> =
         side.activeClientBattlePokemon.mapNotNull { it.battlePokemon }
 
+    /**
+     * Aspectos em uso. Em batalha o servidor manda os aspectos num campo próprio, fora de
+     * `properties` (que vem só com espécie, nível, gênero, forma e shiny), e o Cobblemon guarda esse
+     * conjunto no estado de renderização — é de lá que ele mesmo tira o modelo. Sem ler esse
+     * conjunto, formas como Rotom Wash e Goodra de Hisui caem na forma padrão.
+     */
+    fun aspects(pokemon: ClientBattlePokemon): Set<String> =
+        pokemon.state.currentAspects + pokemon.properties.aspects
+
+    /** Forma em campo: dela saem a tipagem, os atributos base e as habilidades possíveis. */
+    fun form(pokemon: ClientBattlePokemon): FormData = pokemon.species.getForm(aspects(pokemon))
+
     /** Tipagem em uso: a que golpes, Terastal ou mega mudaram, ou a da forma atual. */
     fun types(pokemon: ClientBattlePokemon): List<ElementalType> =
-        BattleTypeTracker.typesFor(pokemon) ?: pokemon.species.getForm(pokemon.properties.aspects).types.toList()
+        BattleTypeTracker.typesFor(pokemon) ?: form(pokemon).types.toList()
 
     fun isAlly(pokemon: ClientBattlePokemon): Boolean {
         val battle = battle() ?: return false
@@ -117,7 +130,7 @@ object BattleReader {
             name = pokemon.displayName,
             level = pokemon.level,
             gender = pokemon.gender,
-            shiny = properties.shiny == true || "shiny" in properties.aspects,
+            shiny = properties.shiny == true || "shiny" in aspects(pokemon),
             types = types(pokemon),
             hpRatio = ratio.coerceIn(0f, 1f),
             hpText = hpText,
@@ -129,7 +142,7 @@ object BattleReader {
     }
 
     fun competitiveView(pokemon: ClientBattlePokemon): CompetitiveView {
-        val form = pokemon.species.getForm(pokemon.properties.aspects)
+        val form = form(pokemon)
         val baseStats = StatNames.BATTLE_ORDER.take(6).map { it to (form.baseStats[it] ?: 0) }
         val abilities = form.abilities
             .map { Component.translatable(it.template.displayName) to (it.type === HiddenAbilityType) }
