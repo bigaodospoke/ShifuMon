@@ -1,5 +1,6 @@
 package com.shifumon.battle
 
+import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.shifumon.battle.tile.BattleTileRenderer
 import com.shifumon.config.ConfigManager
 import com.shifumon.config.HudAnchor
@@ -24,6 +25,19 @@ class BattlePokemonHud private constructor(private val allySide: Boolean) : HudE
 
     // Aparece sempre que o bloco do Cobblemon não está sendo substituído (opção desligada ou pacote de textura)
     override fun isEnabled(): Boolean = ConfigManager.config.interfaceTweaks.enabled && !BattleTileRenderer.isReplacing()
+
+    /**
+     * Em duplas e triplas o Cobblemon empilha um bloco por Pokémon ativo, e a posição padrão do
+     * painel foi medida com um só: sem descer, o painel cobriria o bloco do segundo Pokémon.
+     */
+    override fun autoOffsetY(): Int {
+        val battle = BattleReader.battle() ?: return 0
+        val side = if (allySide) BattleReader.playerSide(battle) else BattleReader.opponentSide(battle)
+        val active = BattleReader.active(side).size
+        if (active <= 1) return 0
+        val stack = (active - 1) * BattleOverlay.COMPACT_VERTICAL_SPACING + BattleOverlay.COMPACT_TILE_HEIGHT
+        return stack - BattleOverlay.TILE_HEIGHT
+    }
 
     override fun build(preview: Boolean): Panel? {
         val pokemon = if (preview) {

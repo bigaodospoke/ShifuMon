@@ -17,8 +17,8 @@ import net.minecraft.network.chat.Component
 internal object BattlePokemonRows {
     private const val CHIPS_PER_ROW = 5
     private val matchupLabels = listOf(
-        "shifumon.matchup.weak4", "shifumon.matchup.weak", "shifumon.matchup.resist",
-        "shifumon.matchup.immune", "shifumon.matchup.strong",
+        "shifumon.matchup.weak4", "shifumon.matchup.weak", "shifumon.matchup.resist4",
+        "shifumon.matchup.resist", "shifumon.matchup.immune", "shifumon.matchup.strong",
     )
 
     fun nameRow(panel: PanelBuilder, view: BattlePokemonView, config: InterfaceConfig, statusInline: Boolean) {
@@ -73,6 +73,7 @@ internal object BattlePokemonRows {
             typeChipRows(panel, "shifumon.matchup.weak", matchups.weak2, labelWidth)
         }
         if (config.showResistances) {
+            typeChipRows(panel, "shifumon.matchup.resist4", matchups.resist4, labelWidth)
             typeChipRows(panel, "shifumon.matchup.resist", matchups.resist, labelWidth)
             typeChipRows(panel, "shifumon.matchup.immune", matchups.immune, labelWidth)
         }

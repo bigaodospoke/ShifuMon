@@ -117,6 +117,7 @@
 
   "shifumon.matchup.weak4": "WEAK X4",
   "shifumon.matchup.weak": "WEAK",
+  "shifumon.matchup.resist4": "RESISTS 1/4",
   "shifumon.matchup.resist": "RESISTS",
   "shifumon.matchup.immune": "IMMUNE",
   "shifumon.matchup.strong": "STRONG",

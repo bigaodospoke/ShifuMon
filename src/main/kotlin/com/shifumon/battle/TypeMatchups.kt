@@ -10,6 +10,8 @@ import com.cobblemon.mod.common.api.types.ElementalType
 data class TypeMatchups(
     val weak4: List<String>,
     val weak2: List<String>,
+    /** Recebe 1/4 do dano (ou menos): os dois tipos resistem ao mesmo golpe. */
+    val resist4: List<String>,
     val resist: List<String>,
     val immune: List<String>,
     val strongAgainst: List<String>,
@@ -21,7 +23,8 @@ data class TypeMatchups(
             return TypeMatchups(
                 weak4 = defensive.filterValues { it >= 4.0 }.keys.toList(),
                 weak2 = defensive.filterValues { it >= 2.0 && it < 4.0 }.keys.toList(),
-                resist = defensive.filterValues { it > 0.0 && it < 1.0 }.keys.toList(),
+                resist4 = defensive.filterValues { it > 0.0 && it <= 0.25 }.keys.toList(),
+                resist = defensive.filterValues { it > 0.25 && it < 1.0 }.keys.toList(),
                 immune = defensive.filterValues { it == 0.0 }.keys.toList(),
                 strongAgainst = TypeChart.TYPES.filter { defending ->
                     ownTypes.any { attacking -> TypeChart.multiplier(attacking, listOf(defending)) >= 2.0 }

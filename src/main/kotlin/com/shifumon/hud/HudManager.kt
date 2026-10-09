@@ -40,8 +40,9 @@ object HudManager {
 
     fun screenPosition(element: HudElement, width: Int, height: Int, screenWidth: Int, screenHeight: Int): Pair<Int, Int> {
         val position = positionOf(element)
+        val offsetY = if (position == element.defaultPosition) element.autoOffsetY() else 0
         val x = (position.anchor.originX(screenWidth, width) + position.x).coerceIn(0, (screenWidth - width).coerceAtLeast(0))
-        val y = (position.anchor.originY(screenHeight, height) + position.y).coerceIn(0, (screenHeight - height).coerceAtLeast(0))
+        val y = (position.anchor.originY(screenHeight, height) + position.y + offsetY).coerceIn(0, (screenHeight - height).coerceAtLeast(0))
         return x to y
     }
 

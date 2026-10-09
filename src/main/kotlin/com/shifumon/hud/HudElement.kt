@@ -16,6 +16,12 @@ interface HudElement {
 
     fun isEnabled(): Boolean
 
+    /**
+     * Deslocamento vertical calculado na hora, para o elemento desviar de algo que muda de tamanho.
+     * Só vale enquanto o jogador não tiver arrastado o elemento: posição escolhida à mão é respeitada.
+     */
+    fun autoOffsetY(): Int = 0
+
     /** Monta o painel do frame atual. `preview = true` usa dados de exemplo (editor de HUD). */
     fun build(preview: Boolean): Panel?
 }

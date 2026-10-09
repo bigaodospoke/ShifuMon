@@ -53,9 +53,15 @@ object BattleTypeTracker {
     }
 
     private fun visit(component: Component) {
-        val contents = findTranslatable(component) ?: return
-        val key = contents.key
-        val args = contents.args
+        val contents = component.contents
+        if (contents is TranslatableContents) {
+            apply(contents.key, contents.args)
+            contents.args.forEach { if (it is Component) visit(it) }
+        }
+        component.siblings.forEach { visit(it) }
+    }
+
+    private fun apply(key: String, args: Array<Any>) {
         when {
             // "%1$s se transformou no tipo %2$s!" e "%1$s Terastalizou no tipo %2$s!"
             key == "${BATTLE}start.typechange" || key == "${BATTLE}terastallize" ->
@@ -85,18 +91,30 @@ object BattleTypeTracker {
     private fun typesFrom(args: Array<Any>): List<ElementalType>? {
         syncLanguage()
         for (arg in args) {
-            val text = (arg as? Component)?.string ?: continue
+            val text = textOf(arg) ?: continue
             val parts = text.split('/', '·').mapNotNull { typesByName[TextUtil.normalize(it)] }
             if (parts.isNotEmpty()) return parts
         }
         return null
     }
 
+    /** Argumento de mensagem: o Cobblemon manda ora um componente traduzido, ora o texto cru. */
+    private fun textOf(arg: Any): String? = when (arg) {
+        is Component -> arg.string
+        is String -> arg
+        else -> null
+    }
+
     private fun syncLanguage() {
         val language = Minecraft.getInstance().languageManager.selected
         if (language == cachedLanguage) return
         cachedLanguage = language
-        typesByName = ElementalTypes.all().associateBy { TextUtil.normalize(it.displayName.string) }
+        typesByName = buildMap {
+            ElementalTypes.all().forEach { type ->
+                put(TextUtil.normalize(type.name), type)
+                put(TextUtil.normalize(type.displayName.string), type)
+            }
+        }
     }
 
     private fun currentTypes(uuid: UUID): List<ElementalType>? {
@@ -117,12 +135,5 @@ object BattleTypeTracker {
     }
 
     private fun pokemonFrom(args: Array<Any>): UUID? =
-        BattleReader.activeFromNames(args.mapNotNull { (it as? Component)?.string })?.uuid
-
-    private fun findTranslatable(component: Component): TranslatableContents? {
-        val contents = component.contents
-        if (contents is TranslatableContents && contents.key.startsWith("cobblemon.")) return contents
-        for (sibling in component.siblings) findTranslatable(sibling)?.let { return it }
-        return null
-    }
+        BattleReader.activeFromNames(args.mapNotNull(::textOf))?.uuid
 }
