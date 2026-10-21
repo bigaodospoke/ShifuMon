@@ -7,9 +7,17 @@ Adiciona informações extras, melhorias visuais e uma interface customizável. 
 Funciona em qualquer servidor: o mod não precisa estar no servidor e só usa dados que o próprio
 Cobblemon já envia para o seu cliente.
 
+![ShifuMon](docs/images/showcase.gif)
+
 ![Batalha com os painéis do ShifuMon](docs/images/batalha.png)
 
 ![Info do Pokémon na mira](docs/images/info-pokemon.png)
+
+| Pokémon de outro jogador | Pokémon selvagem |
+|---|---|
+| ![Info de um Pokémon que não é seu](docs/images/info-outro-jogador.png) | ![Pokémon selvagem](docs/images/pokemon-selvagem.png) |
+| **PC com IVs e shiny nos slots** | **Papel de parede e caixas salvas** |
+| ![PC](docs/images/pc.png) | ![Papel de parede do ShifuMon](docs/images/pc-papel-de-parede.png) |
 
 | Pacote Retro: inventário e hotbar (antes → depois) | Pacote Retro: botões |
 |---|---|
@@ -47,22 +55,22 @@ No Windows use `gradlew.bat`. O `JAVA_HOME` precisa apontar para um **JDK 21**.
 
 | # | Recurso | Estado |
 |---|---|---|
-| 1 | **Ícone shiny customizado** — Estrela, Quadrado, Diamante, Coroa, Padrão ou PNG próprio | ✅ Summary, PC e Trade |
-| 2 | **Info do Pokémon na mira** — nível, shiny, sexo, tipos, nature (+/− stat), habilidade (marca HA), hab. oculta da espécie, tamanho, altura, peso, forma | ✅ |
-| 3 | **Bloco de batalha substituto** — no lugar do bloco de HP do Cobblemon (mantém retrato animado e animação): HP estilo Gen 3, tipos, status, boosts, fraquezas (×2/×4), resistências, imunidades e contra quais tipos o Pokémon é forte | ✅ |
-| 3 | **Oponente** — stats base, BST e habilidades possíveis logo abaixo da vida dele | ✅ |
-| 4 | **Botões de golpe redesenhados** — tipo, categoria, PP e eficácia contra o alvo (X2 SUPER, X1/2, IMUNE), continuando clicáveis | ✅ |
-| 4 | **Histórico de batalha estilizado** — divisória por turno, barra na cor do tipo do golpe, etiquetas de crítico/eficácia/desmaio/troca/boost/status/clima | ✅ |
-| 4 | **Battle HUD** — turno, clima, terreno, efeitos de campo e condições de cada lado (Reflect, Tailwind, Spikes...), com os turnos que faltam para cada um acabar | ✅ |
-| 4 | **Dica do golpe** — ao passar o mouse: poder, precisão, PP, prioridade, chance de crítico e de efeito, STAB, eficácia contra cada alvo e a descrição | ✅ |
-| 3 | **Atributos atuais** — exatos nos seus Pokémon (já com estágios, paralisia e Tailwind) e faixa estimada pelo nível nos do oponente | ✅ |
-| 2 | **Chance de captura** — com uma Poké Bola na mão, estimativa pela fórmula do Cobblemon (bola, nível, taxa da espécie); faixa entre HP cheio e 1 HP + sono, porque o servidor não envia HP/status de selvagens | ✅ |
-| 5 | **Busca avançada no PC** — estende o filtro nativo do Cobblemon + painel de resultados por caixa (clique para abrir) | ✅ |
-| 5 | **Slots do PC** — ícone de shiny e bolinha de IVs: dourada (seis máximos), azul (quase perfeito, limite configurável) e roxa (todos zerados) | ✅ |
-| 5 | **Papel de parede do PC** — a logo do ShifuMon entra como mais uma opção na lista de papéis de parede, escolhida caixa por caixa e guardada no cliente | ✅ |
-| 7 | **Pacote de texturas "ShifuMon Retro"** — HUD, inventário, widgets e botões de batalha do Cobblemon repintados em memória a partir das texturas originais instaladas (nenhuma textura de terceiros vem no jar); opcional, em Opções > Pacotes de Recursos | ✅ |
-| 7 | **Respeita pacotes de textura** — se um pacote (ex.: barra de HP personalizada) retexturiza o bloco de HP, o histórico ou os botões de golpe, a textura do pacote é mantida; desativável na aba Interface | ✅ |
-| 6 | **Configuração** — tela própria (Mod Menu ou tecla `O`) e editor visual de HUD com arrastar e soltar | ✅ |
+| **Ícone shiny customizado** | Estrela, Quadrado, Diamante, Coroa, Padrão ou PNG próprio (Summary, PC e Trade) |
+| **Info do Pokémon na mira** | Nível, shiny, sexo, tipos, nature (+/− stat), habilidade (marca HA), hab. oculta da espécie, tamanho, altura, peso, forma |
+| **Bloco de batalha substituto** | No lugar do bloco de HP do Cobblemon (mantém retrato animado e animação): HP estilo Gen 3, tipos, status, boosts, fraquezas (×2/×4), resistências, imunidades e contra quais tipos o Pokémon é forte |
+| **Oponente** | Stats base, BST e habilidades possíveis logo abaixo da vida dele |
+| **Botões de golpe redesenhados** | Tipo, categoria, PP e eficácia contra o alvo (X2 SUPER, X1/2, IMUNE), continuando clicáveis |
+| **Histórico de batalha estilizado** | Divisória por turno, barra na cor do tipo do golpe, etiquetas de crítico/eficácia/desmaio/troca/boost/status/clima |
+| **Battle HUD** | Turno, clima, terreno, efeitos de campo e condições de cada lado (Reflect, Tailwind, Spikes...), com os turnos que faltam para cada um acabar |
+| **Dica do golpe** | Ao passar o mouse: poder, precisão, PP, prioridade, chance de crítico e de efeito, STAB, eficácia contra cada alvo e a descrição |
+| **Atributos atuais** | Exatos nos seus Pokémon (já com estágios, paralisia e Tailwind) e faixa estimada pelo nível nos do oponente |
+| **Chance de captura** | Com uma Poké Bola na mão, estimativa pela fórmula do Cobblemon (bola, nível, taxa da espécie); faixa entre HP cheio e 1 HP + sono, porque o servidor não envia HP/status de selvagens |
+| **Busca avançada no PC** | Estende o filtro nativo do Cobblemon + painel de resultados por caixa (clique para abrir) |
+| **Slots do PC** | Ícone de shiny e bolinha de IVs: dourada (seis máximos), azul (quase perfeito, limite configurável) e roxa (todos zerados) |
+| **Papel de parede do PC** | A logo do ShifuMon entra como mais uma opção na lista de papéis de parede, escolhida caixa por caixa e guardada no cliente |
+| **Pacote de texturas "ShifuMon Retro"** | HUD, inventário, widgets e botões de batalha do Cobblemon repintados em memória a partir das texturas originais instaladas (nenhuma textura de terceiros vem no jar); opcional, em Opções > Pacotes de Recursos |
+| **Respeita pacotes de textura** | Se um pacote (ex.: barra de HP personalizada) retexturiza o bloco de HP, o histórico ou os botões de golpe, a textura do pacote é mantida; desativável na aba Interface |
+| **Configuração** | Tela própria (Mod Menu ou tecla `O`) e editor visual de HUD com arrastar e soltar |
 
 ### Sintaxe da busca no PC
 
@@ -183,7 +191,7 @@ O pacote **ShifuMon Retro** não guarda texturas: `RetroTheme` lê as texturas o
 Minecraft e do Cobblemon instalados e troca só as cores (cinzas viram a paleta escura do mod;
 cores vivas como corações e comida são mantidas). Nada é gravado em disco.
 
-## Próximos passos sugeridos
+## Ideias pras próximas versões
 
 - Tooltip de info ao passar o mouse nos slots do PC e da party.
 - Imunidades por habilidade (Levitate, Flash Fire…) no cálculo de eficácia.
