@@ -5,14 +5,14 @@
   "name": "ShifuMon",
   "description": "Melhorias client-side para Cobblemon: ícones shiny em pixel art, informações detalhadas de Pokémon, Battle HUD e busca avançada no PC.",
   "authors": [
-    "bigaodospoke"
+    "Kauã Batista do Nascimento"
   ],
   "contact": {
-    "homepage": "https://github.com/bigaodospoke/ShifuMon",
+    "homepage": "https://github.com/bigaodospoke",
     "sources": "https://github.com/bigaodospoke/ShifuMon",
     "issues": "https://github.com/bigaodospoke/ShifuMon/issues"
   },
-  "license": ["MIT", "MPL-2.0"],
+  "license": "All Rights Reserved",
   "icon": "assets/shifumon/icon.png",
   "environment": "client",
   "entrypoints": {

@@ -197,15 +197,6 @@ cores vivas como corações e comida são mantidas). Nada é gravado em disco.
 - Imunidades por habilidade (Levitate, Flash Fire…) no cálculo de eficácia.
 - Controle deslizante de escala da HUD (múltiplos inteiros, para manter o pixel art).
 
-## Licença
+## Licença / License
 
-Código sob a licença [MIT](LICENSE), exceto `CobblemonPortrait.kt`, adaptado do Cobblemon e
-distribuído sob a [MPL-2.0](https://mozilla.org/MPL/2.0/).
-
-## Créditos e avisos
-
-- Feito para o [Cobblemon](https://cobblemon.com) (Cobblemon Contributors). O retrato do bloco
-  de batalha é adaptado do código do Cobblemon, e a chance de captura reproduz a fórmula da
-  `CobblemonCaptureCalculator`.
-- Projeto de fã, sem vínculo com Cobblemon, Mojang Studios, Microsoft, Nintendo, Game Freak ou
-  The Pokémon Company. Pokémon é marca registrada de seus respectivos donos.
+Copyright (c) 2026 Kauã Batista do Nascimento ([bigaodospoke](https://github.com/bigaodospoke)). **Todos os direitos reservados / All rights reserved.** Veja o arquivo [LICENSE](LICENSE).
